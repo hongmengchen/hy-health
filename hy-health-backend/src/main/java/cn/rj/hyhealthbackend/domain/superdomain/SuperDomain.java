@@ -14,7 +14,6 @@ import java.io.Serializable;
  */
 @Data
 public class SuperDomain implements Serializable {
-    // getter 和 setter 方法
     private Long total;  // 总记录数
     @JsonIgnore
     private Integer pn = 1;  // 当前页
