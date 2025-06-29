@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.rj.hyhealthbackend.mapper.AccountMapper">
+    <!-- 用户登录 security 版 -->
+    <select id="securityLogin" resultType="cn.rj.hyhealthbackend.model.AccountModel">
+        select *
+        from account
+        where uname = #{uname}
+           or phonenumber = #{uname}
+    </select>
+</mapper>
