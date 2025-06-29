@@ -1,5 +1,8 @@
 package cn.rj.hyhealthbackend.util;
 
+import lombok.Data;
+import lombok.Getter;
+
 import java.util.HashMap;
 import java.util.Map;
 
@@ -10,6 +13,7 @@ import java.util.Map;
  * 封装返回结果，其中包含了响应码，响应消息，响应成功标志，响应数据，
  * 并实现了创建成功响应、失败响应以及添加响应数据等方法
  */
+@Data
 public class Msg {
     /*状态码*/
     private Integer code;
@@ -21,9 +25,7 @@ public class Msg {
     private Map<String, Object> data = new HashMap<>();
 
     /**
-     * 创建成功响应
-     *
-     * @return Msg
+     * 响应成功函数     * @return
      */
     public static Msg success() {
         Msg msg = new Msg();
@@ -34,9 +36,7 @@ public class Msg {
     }
 
     /**
-     * 创建失败响应
-     *
-     * @return Msg
+     * 响应失败函数     * @return
      */
     public static Msg fail() {
         Msg msg = new Msg();
@@ -47,9 +47,7 @@ public class Msg {
     }
 
     /**
-     * 添加响应数据
-     *
-     * @return Msg
+     * 添加响应数据     * @return
      */
     public Msg data(String key, Object value) {
         this.data.put(key, value);
@@ -57,9 +55,7 @@ public class Msg {
     }
 
     /**
-     * 添加响应码
-     *
-     * @return Msg
+     * 修改状态码     * @return
      */
     public Msg code(Integer code) {
         this.setCode(code);
@@ -67,45 +63,10 @@ public class Msg {
     }
 
     /**
-     * 添加响应消息
-     *
-     * @return Msg
+     * 修改消息     * @return
      */
     public Msg mess(String str) {
         this.setMessage(str);
         return this;
-    }
-
-    // getter setter
-    public Integer getCode() {
-        return code;
-    }
-
-    public void setCode(Integer code) {
-        this.code = code;
-    }
-
-    public String getMessage() {
-        return message;
-    }
-
-    public void setMessage(String message) {
-        this.message = message;
-    }
-
-    public boolean isSuccess() {
-        return success;
-    }
-
-    public void setSuccess(boolean success) {
-        this.success = success;
-    }
-
-    public Map<String, Object> getData() {
-        return data;
-    }
-
-    public void setData(Map<String, Object> data) {
-        this.data = data;
     }
 }

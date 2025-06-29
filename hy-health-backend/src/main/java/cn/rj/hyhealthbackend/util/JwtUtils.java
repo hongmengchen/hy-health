@@ -17,20 +17,24 @@ import java.util.Date;
  */
 public class JwtUtils {
     // 添加常量定义
-    private static final long EXPIRE = 1000 * 60 * 60 * 24; // 24小时有效期
-    private static final String APP_SECRET = "medical-user-secret"; // 签名密钥
+    public static final long EXPIRE = 1000 * 60 * 60 * 6;//过期时间（毫秒为单位，此处为6小时）
+    public static final String APP_SECRET = "ukc8BDbRigUDaY6pZFfWus2jZWLPHO";//秘钥（自己随便写）
 
     /**
-     * 生成 token 的方法
+     * 生成token字符串
+     *
+     * @param id
+     * @param uname
+     * @return
      */
     public static String getJwtToken(Long id, String uname, String role) {
         String JwtToken = Jwts.builder()
-                .setHeaderParam("typ", "JWT")  //jwet头信息
+                .setHeaderParam("typ", "JWT")//jwet头信息
                 .setHeaderParam("alg", "HS256")
-                .setSubject("medical-user")  //分类（自定义）
+                .setSubject("medical-user")//分类（随便写）
                 .setIssuedAt(new Date())
                 .setExpiration(new Date(System.currentTimeMillis() + EXPIRE))
-                .claim("id", id)  //token载体（用户id和用户名）
+                .claim("id", id)//token载体（用户id和用户名）
                 .claim("uname", uname)
                 .claim("role", role)
                 .signWith(SignatureAlgorithm.HS256, APP_SECRET)
@@ -39,10 +43,14 @@ public class JwtUtils {
     }
 
     /**
-     * 判断 token 是否有效的方法
+     * 判断token是否存在与有效
+     *
+     * @param jwtToken
+     * @return
      */
     public static boolean checkToken(String jwtToken) {
-        if (!StringUtils.hasLength(jwtToken)) return false;
+        if (!StringUtils.hasLength(jwtToken))
+            return false;
         try {
             Jwts.parser().setSigningKey(APP_SECRET).parseClaimsJws(jwtToken);
         } catch (Exception e) {
@@ -52,6 +60,12 @@ public class JwtUtils {
         return true;
     }
 
+    /**
+     * 判断token是否存在与有效
+     *
+     * @param request
+     * @return
+     */
     public static boolean checkToken(HttpServletRequest request) {
         try {
             String jwtToken = request.getHeader("token");
@@ -65,7 +79,10 @@ public class JwtUtils {
     }
 
     /**
-     * 获取 Claims 的方法
+     * 获取Claims
+     *
+     * @param jwtToken
+     * @return
      */
     public static Claims getClaims(String jwtToken) {
         if (!StringUtils.hasLength(jwtToken))
@@ -76,7 +93,10 @@ public class JwtUtils {
     }
 
     /**
-     * 根据 token 获取用户 id 的方法
+     * 根据token获取会员id
+     *
+     * @param request
+     * @return
      */
     public static String getMemberIdByJwtToken(HttpServletRequest request) {
         String jwtToken = request.getHeader("token");
