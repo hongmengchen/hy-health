@@ -5,7 +5,6 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 /**
  * @author 陈亮
- * @date 2025/6/29
  *
  * 启动类
  */
