@@ -18,4 +18,24 @@
     <select id="getSaleById" resultType="cn.rj.hyhealthbackend.domain.Sale">
         select * from sale where sale_id=#{id} limit 1
     </select>
+
+    <!--添加一个药店信息-->
+    <insert id="saveSale" parameterType="cn.rj.hyhealthbackend.entity.SaleEntity">
+        <selectKey resultType="java.lang.Long" order="AFTER" keyProperty="total">
+            select COUNT(*) from sale
+        </selectKey>
+        insert into sale(sale_name,sale_phone,updatetime,createtime)
+        values (#{saleName},#{salePhone},#{updatetime},#{createtime})
+    </insert>
+
+    <!--根据id删除药店信息-->
+    <delete id="deleteSaleById">
+        delete from sale where sale_id=#{id}
+    </delete>
+
+    <!--根据id更新药店信息-->
+    <update id="updateSaleById">
+        update sale set sale_name=#{saleName},sale_phone=#{salePhone},updatetime=#{updatetime}
+        where sale_id=#{saleId}
+    </update>
 </mapper>
