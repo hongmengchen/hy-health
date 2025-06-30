@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.rj.hyhealthbackend.mapper.DrugMapper">
+
+    <!--多对多嵌套查询，查询药品时，查询药品对应id的所有药店，此方法可以使用pagehelper，但影响性能-->
+    <resultMap id="getAllDrugs" type="cn.rj.hyhealthbackend.model.DrugModel">
+        <id property="drugId" column="drug_id"/>
+        <result property="drugName" column="drug_name"/>
+        <result property="drugInfo" column="drug_info"/>
+        <result property="drugEffect" column="drug_effect"/>
+        <result property="drugImg" column="drug_img"/>
+        <result property="drugPublisher" column="publisher"/>
+        <collection property="drugSales" ofType="cn.rj.hyhealthbackend.model.SaleModel"
+                    select="getWithSale" column="drug_id">
+            <id property="saleId" column="sale_id"/>
+            <result property="saleName" column="sale_name"/>
+        </collection>
+    </resultMap>
+
+    <!--药品主查询，查询所有的药品信息-->
+    <select id="getAllDrug" resultMap="getAllDrugs">
+        select * from drug
+        <if test="name != null and name != ''">
+            <where>
+                <bind name="drugName" value="'%' + name + '%'"/>
+                drug_name LIKE #{drugName}
+            </where>
+        </if>
+    </select>
+
+    <!--药品子查询，查询药品id对应的所有药店-->
+    <select id="getWithSale" resultType="cn.rj.hyhealthbackend.model.SaleModel">
+        select s.sale_id, s.sale_name
+        from sale s
+                 left join drug_sale ds on s.sale_id = ds.sale_id
+        where ds.drug_id = #{drugId}
+    </select>
+
+</mapper>
