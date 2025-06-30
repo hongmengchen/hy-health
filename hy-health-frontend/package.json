@@ -1,0 +1,8 @@
+{
+  "dependencies": {
+    "@dcloudio/uni-ui": "^1.5.8",
+    "axios": "^1.10.0",
+    "vue-router": "^4.5.1",
+    "vuex": "^4.1.0"
+  }
+}

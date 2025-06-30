@@ -1,22 +1,17 @@
-import App from './App'
-
-// #ifndef VUE3
-import Vue from 'vue'
-import './uni.promisify.adaptor'
-Vue.config.productionTip = false
-App.mpType = 'app'
-const app = new Vue({
-  ...App
-})
-app.$mount()
-// #endif
-
-// #ifdef VUE3
+import App from './App.vue'
 import { createSSRApp } from 'vue'
-export function createApp() {
-  const app = createSSRApp(App)
-  return {
-    app
-  }
-}
-// #endif
+import router from './router'  // 引入router
+import store from './store'  // 引入vuex
+import './uni.promisify.adaptor'
+import "./style/reset.css"  // 引入样式
+
+// 只创建一个应用实例
+const app = createSSRApp(App)
+app.use(store)
+app.use(router)
+
+// 导出应用实例
+export { app }
+
+// 直接挂载应用
+app.mount('#app') // 确保你的index.html中有id为app的元素
