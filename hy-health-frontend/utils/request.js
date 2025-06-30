@@ -1,5 +1,4 @@
 import axios from "axios";
-import { Message } from "@dcloudio/uni-ui";
 import router from "../router/index";
 
 axios.default.withCredentials = true;
@@ -30,7 +29,7 @@ service.interceptors.response.use(
     const res = response.data;
     // code为10006代表token失效，需要重新登录
     if (res.code == 10006) {
-      Message({
+      uni.showToast({
         type: "error",
         message: "登录已失效，请重新登录",
       });
