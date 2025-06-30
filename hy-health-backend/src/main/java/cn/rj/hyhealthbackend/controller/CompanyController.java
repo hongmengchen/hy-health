@@ -19,7 +19,6 @@ import javax.annotation.security.RolesAllowed;
 
 @Api(tags = "医药公司信息控制器")
 @RestController
-
 @RequestMapping("/api/companys")
 @CrossOrigin
 public class CompanyController {
