@@ -3,6 +3,7 @@ package cn.rj.hyhealthbackend.service;
 import cn.rj.hyhealthbackend.domain.City;
 import cn.rj.hyhealthbackend.entity.CityEntity;
 import cn.rj.hyhealthbackend.mapper.CityMapper;
+import cn.rj.hyhealthbackend.mapper.MedicalPolicyMapper;
 import cn.rj.hyhealthbackend.model.CityModel;
 import cn.rj.hyhealthbackend.util.Msg;
 import com.github.pagehelper.PageHelper;
@@ -20,11 +21,14 @@ import java.util.List;
  * CityService
  * - 实现城市分页查询以及根据id查询城市信息。分页查询通过接收页码以及每页大小，如果没有值则初始化页码以及页面大小，通过传入name查询城市信息并通过pageHelper进行分页。最后返回分页信息
  * - 城市信息添加方法，城市信息删除方法以及检查城市是否存在方法
+ * - 修改城市信息删除方法，使当删除城市信息的时候同时删除该城市的医保政策
  */
 @Service
 public class CityService {
     @Autowired
     private CityMapper cityMapper;
+    @Autowired
+    private MedicalPolicyMapper medicalPolicyMapper;
 
     /**
      * 获取所有城市信息并分页，name不为空则模糊查询,当pn和size为null,则整页查询
@@ -89,6 +93,7 @@ public class CityService {
      */
     public Msg deleteCityById(Integer id) {
         int i = cityMapper.deleteCityById(id);
+        medicalPolicyMapper.deleteByCity(id);
         if (i > 0) {
             return Msg.success().mess("删除成功");
         } else {

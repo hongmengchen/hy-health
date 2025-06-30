@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.rj.hyhealthbackend.mapper.MedicalPolicyMapper">
+    <resultMap id="getAllPolicyMap" type="cn.rj.hyhealthbackend.model.MedicalPolicyModel">
+        <id property="id" column="id"/>
+        <result property="title" column="title"/>
+        <result property="message" column="message"/>
+        <result property="createTime" column="create_time"/>
+        <result property="updateTime" column="update_time"/>
+        <association property="cityModel" javaType="cn.rj.hyhealthbackend.model.CityModel">
+            <id property="cityId" column="city_id"/>
+            <result property="city" column="name"/>
+        </association>
+    </resultMap>
+
+    <!--条件查询医保政策-->
+    <select id="getAllPolicy" resultMap="getAllPolicyMap">
+        SELECT mp.id,mp.title,mp.message,
+        mp.create_time,mp.update_time,mp.city_id,s.name
+        FROM `medical_policy` mp left join city c on mp.city_id=c.city_id left join sysregion s on s.id=c.city_number
+        <where>
+            <trim prefixOverrides="and">
+                <if test="id !=null">
+                    <bind name="mid" value="'%' + id + '%'"/>
+                    and mp.id like #{mid}
+                </if>
+
+                <if test="title !=null and title != ''">
+                    <bind name="ptitle" value="'%' + title + '%'"/>
+                    and mp.title like #{ptitle}
+                </if>
+                <if test="updateTime !=null and updateTime != ''">
+                    <bind name="pdate" value="'%' + updateTime + '%'"/>
+                    and mp.update_time like #{pdate}
+                </if>
+                <if test="cityId !=null">
+                    and mp.city_id=#{cityId}
+                </if>
+            </trim>
+        </where>
+    </select>
+
+    <!--添加医保政策-->
+    <insert id="saveMedicalPolicy" useGeneratedKeys="true" keyProperty="id">
+        insert into `medical_policy`(title, city_id, create_time, update_time, message)
+        values (#{title}, #{cityId}, #{createTime}, #{updateTime}, #{message})
+    </insert>
+
+    <!--更新医保政策-->
+    <update id="updateMedicalPolicy">
+        update `medical_policy`
+        set title=#{title},
+            city_id=#{cityId},
+            message=#{message},
+            update_time=#{updateTime}
+        where id = #{id}
+    </update>
+
+    <!--根据id删除医保政策-->
+    <delete id="deleteMedicalPolicy">
+        delete
+        from `medical_policy`
+        where id = #{id}
+    </delete>
+
+    <!--根据城市id删除医保政策-->
+    <delete id="deleteByCity">
+        delete
+        from `medical_policy`
+        where city_id = #{city};
+    </delete>
+</mapper>
