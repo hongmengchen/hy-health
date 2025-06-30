@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="cn.rj.hyhealthbackend.mapper.CompanyPolicyMapper">
+
+    <!--查询所有的医药公司政策结果集-->
+    <resultMap id="getAllPolicyMap" type="cn.rj.hyhealthbackend.model.CompanyPolicyModel">
+        <id property="id" column="id"/>
+        <result property="title" column="title"/>
+        <result property="message" column="message"/>
+        <result property="createTime" column="create_time"/>
+        <result property="updateTime" column="update_time"/>
+        <association property="drugCompanyModel" javaType="cn.rj.hyhealthbackend.model.DrugCompanyModel">
+            <id property="companyId" column="company_id"/>
+            <result property="companyName" column="company_name"/>
+        </association>
+    </resultMap>
+
+    <!--查询所有的医药公司政策-->
+    <select id="getAllPolicy" resultMap="getAllPolicyMap">
+        SELECT cp.id,cp.title,cp.message,cp.company_id,cp.update_time,dc.company_name
+        FROM `company_policy` cp left join drugcompany dc on cp.company_id=dc.company_id
+        <where>
+            <trim prefixOverrides="OR">
+                <if test="keyword != null and keyword != ''">
+                    <bind name="key" value="'%' + keyword + '%'"/>
+                    OR cp.title LIKE #{key}
+                    OR cp.id LIKE #{key}
+                    OR cp.message LIKE #{key}
+                    OR cp.company_id LIKE #{key}
+                    OR cp.update_time LIKE BINARY #{key}
+                </if>
+            </trim>
+        </where>
+    </select>
+</mapper>
