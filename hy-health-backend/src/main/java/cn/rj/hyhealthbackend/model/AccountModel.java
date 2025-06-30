@@ -25,7 +25,7 @@ public class AccountModel extends Account implements UserDetails {
     public AccountModel(Long id, String uname, String realname, String pwd, String utype, Collection<? extends GrantedAuthority> authorities) {
         this.setId(id);
         this.setUname(uname);
-        this.setPwd(pwd);
+        this.setPwd(pwd);  // 设置密码字段
         this.setUtype(utype);
         this.urealName = realname;
         this.authorities = authorities;
@@ -38,12 +38,12 @@ public class AccountModel extends Account implements UserDetails {
 
     @Override
     public String getPassword() {
-        return "";
+        return this.getPwd();
     }
 
     @Override
     public String getUsername() {
-        return "";
+        return this.getUname();
     }
 
     @Override

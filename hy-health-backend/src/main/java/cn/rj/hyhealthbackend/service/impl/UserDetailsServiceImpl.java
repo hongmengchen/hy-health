@@ -33,7 +33,6 @@ public class UserDetailsServiceImpl implements UserDetailsService {
         String role = accountModel.getUtype();
         List<GrantedAuthority> auths = AuthorityUtils.commaSeparatedStringToAuthorityList(role);
         System.out.println(accountModel.getRealname());
-
         return new AccountModel(accountModel.getId(), accountModel.getUname(), accountModel.getRealname(), role, accountModel.getPwd(), auths);
     }
 }

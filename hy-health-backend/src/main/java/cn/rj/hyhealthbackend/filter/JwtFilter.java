@@ -32,8 +32,9 @@ import java.util.List;
 @Component
 public class JwtFilter extends OncePerRequestFilter {
     private static Logger logger = Logger.getLogger(JwtFilter.class);
+    // 自定义的登录逻辑类
     @Autowired
-    private UserDetailsServiceImpl userDetailService;//自定义的登录逻辑类
+    private UserDetailsServiceImpl userDetailService;
 
     @Override
     protected void doFilterInternal(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse, FilterChain filterChain) throws ServletException, IOException {
