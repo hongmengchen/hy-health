@@ -9,4 +9,53 @@
         where uname = #{uname}
            or phonenumber = #{uname}
     </select>
+
+    <sql id="updateValue">
+        <trim prefixOverrides=",">
+            <if test="pwd !=null and pwd != ''">
+                ,pwd=#{pwd}
+            </if>
+            <if test="uname != null and uname != ''">
+                ,uname=#{uname}
+            </if>
+            <if test="phoneNumber !=null and phoneNumber != ''">
+                ,phonenumber=#{phoneNumber}
+            </if>
+            <if test="realname !=null and realname != ''">
+                ,realname=#{realname}
+            </if>
+            <if test="updatetime !=null">
+                ,updatetime=#{updatetime}
+            </if>
+            <if test="createtime !=null">
+                ,createtime=#{createtime}
+            </if>
+        </trim>
+    </sql>
+
+    <!--注册账号-->
+    <insert id="regist" useGeneratedKeys="true" keyProperty="id">
+        insert into account(uname,realname,pwd,phonenumber,utype,updatetime,createtime)
+        values(#{uname},#{realname},#{pwd},#{phoneNumber},#{utype},#{updatetime},#{createtime})
+    </insert>
+
+    <!--检查手机号-->
+    <select id="checkPhone" resultType="int">
+        select count(id) from `doctor` where phone=#{phoneNumber} limit 1
+    </select>
+
+    <!--更新账户信息-->
+    <update id="updateAccount">
+        update account set <include refid="updateValue"></include> where id=#{id}
+    </update>
+
+    <!--根据id删除账户信息-->
+    <delete id="deleteAccountById">
+        delete from account where id=#{id}
+    </delete>
+
+    <!--重置密码-->
+    <update id="resetPwd">
+        update account set pwd=#{pwd} where id=#{id}
+    </update>
 </mapper>

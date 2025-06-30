@@ -1,5 +1,6 @@
 package cn.rj.hyhealthbackend.mapper;
 
+import cn.rj.hyhealthbackend.entity.AccountEntity;
 import cn.rj.hyhealthbackend.model.AccountModel;
 import org.springframework.stereotype.Component;
 
@@ -13,4 +14,15 @@ import org.springframework.stereotype.Component;
 public interface AccountMapper {
     // 用户登录 security
     AccountModel securityLogin(String uname);
+
+    /*校验手机号存在*/
+    int checkPhone(String phone);
+
+    /*重置密码*/
+    int resetPwd(Long id, String pwd);
+    /*注册账号*/
+    int regist(AccountEntity entity);
+
+    /*更新账户信息*/
+    int updateAccount(AccountEntity entity);
 }
