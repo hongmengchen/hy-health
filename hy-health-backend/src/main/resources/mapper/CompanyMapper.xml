@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="cn.rj.hyhealthbackend.mapper.CompanyMapper">
+    <!--查询所有的医药公司信息,name不为空则模糊查询-->
+    <select id="getAllCompany" resultType="cn.rj.hyhealthbackend.domain.DrugCompany">
+        select * from drugcompany
+        <if test="name != null and name != ''">
+            <where>
+                <bind name="companyName" value="'%' + name + '%'"/>
+                company_name LIKE #{companyName}
+            </where>
+        </if>
+    </select>
+
+    <!--根据id查找一个医药公司信息-->
+    <select id="getCompanyById" resultType="cn.rj.hyhealthbackend.domain.DrugCompany">
+        select *
+        from drugcompany
+        where company_id = #{id}
+        limit 1
+    </select>
+</mapper>
