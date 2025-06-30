@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="cn.rj.hyhealthbackend.mapper.CityMapper">
+
+    <resultMap id="AllCityMap" type="cn.rj.hyhealthbackend.model.CityModel">
+        <id property="cityId" column="city_id"/>
+        <result property="cityNumber" column="city_number"/>
+        <result property="province" column="pname"/>
+        <result property="city" column="cname"/>
+    </resultMap>
+
+    <!--查询所有的城市信息,name不为空则模糊查询-->
+    <select id="getAllCity" resultMap="AllCityMap">
+        select c.city_id,c.city_number,s.`name` as cname,s2.`name` as pname from city c
+        left join sysregion s on c.city_number=s.id
+        inner join sysregion s2 on s.parent_id=s2.id
+        <if test="name != null and name != ''">
+            <where>
+                <bind name="cityName" value="'%' + name + '%'"/>
+                s2.name LIKE #{cityName}
+                OR s.`name` LIKE #{cityName}
+            </where>
+        </if>
+    </select>
+
+    <!--根据id查找一个城市信息-->
+    <select id="getCityById" resultType="cn.rj.hyhealthbackend.domain.City">
+        select *
+        from city
+        where city_id = #{id}
+        limit 1
+    </select>
+
+    <!--添加一个城市信息-->
+    <insert id="saveCity" parameterType="cn.rj.hyhealthbackend.entity.CityEntity">
+        <selectKey resultType="java.lang.Long" order="AFTER" keyProperty="total">
+            select COUNT(*) from city
+        </selectKey>
+        insert into city(updatetime,createtime,city_number)
+        values (#{updatetime},#{createtime},#{cityNumber})
+    </insert>
+
+    <!--根据id删除城市信息-->
+    <delete id="deleteCityById">
+        delete
+        from city
+        where city_id = #{id}
+    </delete>
+
+    <!--通过名字查询-->
+    <select id="checkCityByName" resultType="int">
+        select COUNT(*)
+        from city
+        where city_number = #{number}
+    </select>
+</mapper>
