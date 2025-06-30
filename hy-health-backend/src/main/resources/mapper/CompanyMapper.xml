@@ -22,4 +22,28 @@
         where company_id = #{id}
         limit 1
     </select>
+
+    <!--添加一个医药公司信息-->
+    <insert id="saveCompany" parameterType="cn.rj.hyhealthbackend.entity.DrugCompanyEntity">
+        <selectKey resultType="java.lang.Long" order="AFTER" keyProperty="total">
+            select COUNT(*) from drugcompany
+        </selectKey>
+        insert into drugcompany(company_name,company_phone,updatetime,createtime)
+        values (#{companyName},#{companyPhone},#{updatetime},#{createtime})
+    </insert>
+
+    <!--根据id删除医药公司信息-->
+    <delete id="deleteCompanyById">
+        delete
+        from drugcompany
+        where company_id = #{id}
+    </delete>
+    <!--根据id更新医药公司信息-->
+    <update id="updateCompanyById">
+        update drugcompany
+        set company_name=#{companyName},
+            company_phone=#{companyPhone},
+            updatetime=#{updatetime}
+        where company_id = #{companyId}
+    </update>
 </mapper>
