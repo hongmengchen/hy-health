@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.rj.hyhealthbackend.mapper.DoctorMapper">
+    <resultMap id="getAllDoctorMap" type="cn.rj.hyhealthbackend.model.DoctorModel">
+        <id property="id" column="id"/>
+        <result property="name" column="name"/>
+        <result property="age" column="age"/>
+        <result property="sex" column="sex"/>
+        <result property="doctorLevel" column="lname"/>
+        <result property="phoneNumber" column="phone"/>
+        <result property="accountId" column="account_id"/>
+        <result property="typeId" column="tid"/>
+        <result property="treatType" column="tname"/>
+    </resultMap>
+    <!--查询所有的医师信息-->
+    <select id="getAllDoctor" resultMap="getAllDoctorMap">
+        SELECT d.id,d.name,d.age,d.sex,d.level_id,d.phone,d.hospital,d.account_id,dl.id as lid,
+        dl.name as lname,tt.name as tname,tt.id as tid FROM `doctor` d left join doctor_level dl on d.level_id=dl.id
+        left join treat_type tt on d.type_id=tt.id
+        <where>
+            <trim prefixOverrides="OR">
+                <if test="keyword != null and keyword != ''">
+                    <bind name="key" value="'%' + keyword + '%'"/>
+                    OR d.name LIKE #{key}
+                    OR d.id LIKE #{key}
+                    OR tt.name LIKE #{key}
+                    OR d.phone LIKE #{key}
+                    OR dl.name LIKE #{key}
+                </if>
+            </trim>
+        </where>
+        order by id
+    </select>
+    <!--查询所有的医师级别-->
+    <select id="getAllLevel" resultType="cn.rj.hyhealthbackend.model.DoctorLevelModel">
+        select id,name from `doctor_level`
+    </select>
+    <!--查询所有的诊治类型-->
+    <select id="getAllTreatType" resultType="cn.rj.hyhealthbackend.model.TreatTypeModel">
+        select id,name from `treat_type`
+    </select>
+</mapper>
