@@ -3,6 +3,7 @@ package cn.rj.hyhealthbackend.service;
 import cn.rj.hyhealthbackend.domain.DrugCompany;
 import cn.rj.hyhealthbackend.entity.DrugCompanyEntity;
 import cn.rj.hyhealthbackend.mapper.CompanyMapper;
+import cn.rj.hyhealthbackend.mapper.CompanyPolicyMapper;
 import cn.rj.hyhealthbackend.util.Msg;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
@@ -20,13 +21,14 @@ import java.util.List;
  * 医药公司服务层
  * - 添加根据公司名模糊分页查询以及根据id查询医药公司信息功能，在分页查询时，如果传入的页码和页面大小为null或者0，则设置默认页码和页面大小，然后通过pageHelper进行分页，通过id查询时，如果没有查询到对应id的信息，则返回信息“没有找到”，否则返回查询到的公司信息
  * - 医药公司添加方法，医药公司修改方法以及医药公司删除方法
+ * - 医药公司删除方法，在删除医药公司的同时删除对应的医保政策
  */
 @Service
 public class CompanyService {
     @Autowired
     private CompanyMapper companyMapper;
-    /*@Autowired
-    private CompanyPolicyMapper companyPolicyMapper;*/
+    @Autowired
+    private CompanyPolicyMapper companyPolicyMapper;
 
     /**
      * 获取所有医药公司信息并分页，name不为空则模糊查询
@@ -114,6 +116,7 @@ public class CompanyService {
      */
     public Msg deleteCompanyById(Integer id) {
         int i = companyMapper.deleteCompanyById(id);
+        companyPolicyMapper.deletePolicyByCompany(id);
         if (i > 0) {
             return Msg.success().mess("删除成功");
         } else {

@@ -8,5 +8,5 @@ import cn.rj.hyhealthbackend.domain.CompanyPolicy;
  * 医药公司政策数据模型
  * - 用于对数据库进行操作
  */
-public class CompanyPolicyEntiy extends CompanyPolicy {
+public class CompanyPolicyEntity extends CompanyPolicy {
 }

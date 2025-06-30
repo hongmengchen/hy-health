@@ -35,4 +35,32 @@
             </trim>
         </where>
     </select>
+
+    <!--添加医药公司政策-->
+    <insert id="savePolicy">
+        insert into `company_policy`(title, message, company_id, create_time, update_time)
+        values (#{title}, #{message}, #{companyId}, #{createTime}, #{updateTime})
+    </insert>
+
+    <!--更新医药公司政策-->
+    <update id="updatePolicy">
+        update `company_policy`
+        set title=#{title},
+            message=#{message},
+            company_id=#{companyId},
+            update_time=#{updateTime}
+        where id = #{id}
+    </update>
+
+    <!--根据id删除医药公司政策-->
+    <delete id="deletePolicy">
+        delete
+        from `company_policy`
+        where id = #{id}
+    </delete>
+    <delete id="deletePolicyByCompany">
+        delete
+        from `company_policy`
+        where company_id = #{id}
+    </delete>
 </mapper>
