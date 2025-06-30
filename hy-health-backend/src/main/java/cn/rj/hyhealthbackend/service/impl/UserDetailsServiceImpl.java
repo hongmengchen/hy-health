@@ -30,9 +30,9 @@ public class UserDetailsServiceImpl implements UserDetailsService {
             throw new UsernameNotFoundException("用户不存在");
         }
 
-        System.out.println("UserName: 【" + accountModel.getUname() + "】");
+        System.out.println("用户名: 【" + accountModel.getUname() + "】");
         String encodedPassword = accountModel.getPwd();
-        System.out.println("Encoded Password: 【" + encodedPassword + "】");
+        System.out.println("加密密码: 【" + encodedPassword + "】");
         if (encodedPassword == null || !encodedPassword.startsWith("$2a$")) {
             throw new UsernameNotFoundException("密码格式不正确");
         }
