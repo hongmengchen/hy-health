@@ -30,9 +30,23 @@ public class UserDetailsServiceImpl implements UserDetailsService {
         if (accountModel == null) {
             throw new UsernameNotFoundException("用户不存在");
         }
+
+        System.out.println("UserName: 【" + accountModel.getUname() + "】");
+        String encodedPassword = accountModel.getPwd();
+        System.out.println("Encoded Password: 【" + encodedPassword + "】");
+        if (encodedPassword == null || !encodedPassword.startsWith("$2a$")) {
+            throw new UsernameNotFoundException("密码格式不正确");
+        }
+
         String role = accountModel.getUtype();
         List<GrantedAuthority> auths = AuthorityUtils.commaSeparatedStringToAuthorityList(role);
-        System.out.println(accountModel.getRealname());
-        return new AccountModel(accountModel.getId(), accountModel.getUname(), accountModel.getRealname(), role, accountModel.getPwd(), auths);
+
+        return new AccountModel(
+                accountModel.getId(),
+                accountModel.getUname(),
+                accountModel.getRealname(),
+                encodedPassword,
+                role,
+                auths);
     }
 }
