@@ -18,4 +18,20 @@
             </trim>
         </where>
     </select>
+
+    <!--添加必备材料-->
+    <insert id="saveMaterial">
+        insert into `material`(title,message)
+        values(#{title},#{message})
+    </insert>
+
+    <!--更新必备材料-->
+    <update id="updateMaterial">
+        update `material` set title=#{title},message=#{message} where id=#{id}
+    </update>
+
+    <!--根据id删除必备材料-->
+    <delete id="deleteMaterial" >
+        delete from `material` where id=#{id}
+    </delete>
 </mapper>
