@@ -1,6 +1,7 @@
 package cn.rj.hyhealthbackend.mapper;
 
 import cn.rj.hyhealthbackend.domain.Sale;
+import cn.rj.hyhealthbackend.entity.SaleEntity;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
@@ -20,5 +21,13 @@ public interface SaleMapper {
     /*根据id查找一个药店信息*/
     Sale getSaleById(Integer id);
 
+    /*添加一个药店信息*/
+    int saveSale(SaleEntity sale);
+
+    /*根据id删除药店信息*/
+    int deleteSaleById(Integer id);
+
+    /*根据id更新药店数据*/
+    int updateSaleById(Sale sale);
 
 }

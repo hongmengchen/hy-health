@@ -8,6 +8,8 @@ import io.swagger.annotations.Api;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import javax.annotation.security.RolesAllowed;
+
 /**
  * @author 李柯嘉
  * <p>
@@ -53,4 +55,52 @@ public class SaleController {
         return msg;
     }
 
+    /**
+     * 新增一个药店信息
+     * @return
+     */
+    @RolesAllowed({"1"})
+    @PostMapping(value = "")
+    public Msg saveSale(@RequestBody Sale sale) {
+        String name = sale.getSaleName();
+        String phone = sale.getSalePhone();
+        boolean leaf = (name == null || phone == null || name == "" || phone == "");
+        if (leaf) {
+            return Msg.fail().mess("填写信息不完整");
+        }
+        return saleService.saveSale(sale);
+    }
+
+    /**
+     * 根据id删除药店
+     * @param id
+     * @return
+     */
+    @RolesAllowed({"1"})
+    @DeleteMapping("{id}")
+    public Msg deleteSaleById(@PathVariable("id") Integer id) {
+        Msg msg = saleService.deleteSaleById(id);
+        return msg;
+    }
+
+
+    /**
+     * 根据id更新药店
+     * @param sale
+     * @return
+     */
+    @RolesAllowed({"1"})
+    @PutMapping(value = "/{id}")
+    public Msg updateSaleById(@PathVariable("id")Long id, @RequestBody Sale sale) {
+        String name = sale.getSaleName();
+        String phone = sale.getSalePhone();
+        if (name == null || name == "") {
+            return Msg.fail().mess("药店名称不能为空");
+        }
+        if (phone == null || phone == "") {
+            return Msg.fail().mess("药店电话不能为空");
+        }
+        Msg msg = saleService.updateSaleById(id, sale);
+        return msg;
+    }
 }
