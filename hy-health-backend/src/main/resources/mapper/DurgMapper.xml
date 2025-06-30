@@ -36,4 +36,43 @@
         where ds.drug_id = #{drugId}
     </select>
 
+    <!--新增药品信息-->
+    <insert id="saveDrug" parameterType="cn.rj.hyhealthbackend.param.DrugParam" keyProperty="drugId" useGeneratedKeys="true">
+        insert into drug(drug_name, drug_info, drug_effect, drug_img, createtime, updatetime, publisher)
+        values (#{drugName}, #{drugInfo}, #{drugEffect}, #{drugImg}, #{createtime}, #{updatetime}, #{drugPublisher})
+    </insert>
+
+    <!--根据id更新药品信息-->
+    <update id="updateDrugById">
+        update drug
+        set drug_name=#{drugName},
+            drug_info=#{drugInfo},
+            drug_effect=#{drugEffect},
+            drug_Img=#{drugImg},
+            createtime=#{createtime},
+            updatetime=#{updatetime}
+        where drug_id = #{drugId}
+    </update>
+
+    <!--插入药品对应的售卖地点-->
+    <insert id="insertSalePlace">
+        insert into drug_sale(drug_id,sale_id) values
+        <foreach collection="saleIds" item="item" separator=",">
+            (#{drugId},#{item})
+        </foreach>
+    </insert>
+
+    <!--根据药品id删除对应的售卖地点-->
+    <delete id="deleteSaleByDrugId">
+        delete
+        from drug_sale
+        where drug_id = #{drugId}
+    </delete>
+
+    <!--根据药品id删除对应药品-->
+    <delete id="deleteDrugById">
+        delete
+        from drug
+        where drug_id = #{drugId}
+    </delete>
 </mapper>
