@@ -1,5 +1,6 @@
 package cn.rj.hyhealthbackend.mapper;
 
+import cn.rj.hyhealthbackend.entity.DoctorEntity;
 import cn.rj.hyhealthbackend.model.TreatTypeModel;
 import cn.rj.hyhealthbackend.model.DoctorLevelModel;
 import cn.rj.hyhealthbackend.model.DoctorModel;
@@ -24,4 +25,13 @@ public interface DoctorMapper {
     List<DoctorLevelModel> getAllLevel();
     /*获取所有的诊治类型*/
     List<TreatTypeModel> getAllTreatType();
+
+    /*新增医师信息*/
+    int saveDoctor(DoctorEntity param);
+
+    /*更新医师信息*/
+    int updateDoctor(DoctorEntity param);
+
+    /*根据id删除医师*/
+    int deleteDoctorById(Long id);
 }

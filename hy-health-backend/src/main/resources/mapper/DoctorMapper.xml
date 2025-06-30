@@ -39,4 +39,23 @@
     <select id="getAllTreatType" resultType="cn.rj.hyhealthbackend.model.TreatTypeModel">
         select id,name from `treat_type`
     </select>
+
+    <!--添加医师信息-->
+    <insert id="saveDoctor">
+        insert into `doctor`(name,age,sex,level_id,phone,account_id,type_id,createtime,updatetime)
+        values(#{name},#{age},#{sex},#{levelId},#{phoneNumber},#{accountId},#{typeId},#{createTime},#{updateTime})
+    </insert>
+
+
+    <!--更新医师信息-->
+    <update id="updateDoctor">
+        update `doctor` set name=#{name},age=#{age},sex=#{sex},level_id=#{levelId},
+                            phone=#{phoneNumber},type_id=#{typeId},updatetime=#{updateTime} where id=#{id}
+    </update>
+
+    <!--根据id删除医师信息并删除关联账号-->
+    <delete id="deleteDoctorById">
+        delete a,d from doctor d,account a where d.id=#{id} and d.account_id=a.id
+    </delete>
+
 </mapper>
