@@ -21,4 +21,15 @@ const router = createRouter({
   routes
 })
 
+// 全局前置守卫：检查登录状态
+router.beforeEach((to, from, next) => {
+  const token = localStorage.getItem('token');
+  // 未登录且目标不是登录页时跳转登录
+  if (!token && to.path !== '/pages/login/login') {
+    next('/pages/login/login');
+  } else {
+    next();
+  }
+})
+
 export default router
