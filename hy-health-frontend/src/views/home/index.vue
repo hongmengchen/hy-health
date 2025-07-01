@@ -1,44 +1,48 @@
-<!--欢迎页面  -->
 <template>
-  <div>
-    <el-carousel :interval="3000" height="450px" trigger="click" arrow="hover">
-      <el-carousel-item v-for="(url, index) in picList" :key="index">
-        <el-image :src="url.image" fit="contain"></el-image>
-      </el-carousel-item>
-    </el-carousel>
+  <div class="LoginBackground">
+    <div class="LoginForm">
+      <div class="big-contain">
+        <!-- 原有轮播图 -->
+        <el-carousel :interval="3000" height="450px" trigger="click" arrow="hover">
+          <el-carousel-item v-for="(url, index) in picList" :key="index">
+            <el-image :src="url.image" fit="contain"></el-image>
+          </el-carousel-item>
+        </el-carousel>
 
-    <div class="card-list">
-      <el-card
-        :body-style="{ padding: '0px' }"
-        v-for="(card, index) in cardList"
-        :key="index"
-        shadow="hover"
-      >
-        <el-image
-          style="width: 200px; height: 150px;"
-          :src="card.pic"
-          fit="cover"
-        />
-        <div class="card-content">
-          <span>{{ card.content }}</span>
+        <!-- 卡片列表区域 -->
+        <div class="card-list">
+          <el-card
+            :body-style="{ padding: '0px' }"
+            v-for="(card, index) in cardList"
+            :key="index"
+            shadow="hover"
+          >
+            <el-image
+              style="width: 200px; height: 150px;"
+              :src="card.pic"
+              fit="cover"
+            />
+            <div class="card-content">
+              <span>{{ card.content }}</span>
+            </div>
+          </el-card>
         </div>
-      </el-card>
+      </div>
     </div>
   </div>
 </template>
 
 <script>
 export default {
-  name: "welcomeVue",
+  name: "HomeView",
   data() {
     return {
-      administrators: "admin",
       picList: [
-          {image:require('../../assets/hUlLAP.png')},
-          {image:require('../../assets/hUlH0I.png')},
-          {image:require('../../assets/hUlOtf.jpg')},
-          {image:require('../../assets/hUlb7t.jpg')},
-          {image:require('../../assets/hUl7nA.jpg')}
+        { image: require('../../assets/hUlLAP.png') },
+        { image: require('../../assets/hUlH0I.png') },
+        { image: require('../../assets/hUlOtf.jpg') },
+        { image: require('../../assets/hUlb7t.jpg') },
+        { image: require('../../assets/hUl7nA.jpg') }
       ],
       cardList: [
         {
@@ -70,29 +74,86 @@ export default {
   },
 };
 </script>
-<style lang="less" scoped>
-.el-carousel__item:nth-child(2n) {
-  background-color: #99a9bf;
+
+<style scoped>
+.LoginBackground {
+  background: url("../../assets/LoginBackground.jpg") no-repeat;
+  background-size: cover;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
 }
-.el-carousel__item:nth-child(2n + 1) {
-  background-color: #d3dce6;
+
+.LoginForm {
+  background: url("../../assets/Login.png") no-repeat;
+  background-size: 800px 599px;
+  width: 1000px;
+  height: 800px;
+  margin-left: 555px;
+  margin-top: 100px;
+  overflow: hidden;
 }
+
+.big-contain {
+  margin-left: -60px;
+  padding: 20px;
+}
+
+/* 保留原有卡片样式 */
 .card-list {
   display: flex;
-  justify-content: space-around;
-  align-items: center;
+  flex-wrap: wrap;
+  gap: 20px;
+  padding: 20px;
+}
+
+.card-content {
+  padding: 10px;
+  text-align: center;
+}
+
+/* 输入框样式（未使用，但保留结构一致性） */
+.UserName,
+.PassWord {
+  overflow: hidden;
+  border: 2px solid #2abeb2;
+  border-radius: 20px;
+  margin-left: 200px;
+  height: 70px;
+  width: 530px;
+}
+
+.Input {
+  overflow: hidden;
+  margin-left: 20px;
+  height: 80px;
+  font-size: 35px;
+  color: #2abeb2;
+}
+
+.Logo {
+  overflow: hidden;
+  margin-left: 15px;
+  margin-bottom: 5px;
+}
+
+.LoginBtn {
+  overflow: hidden;
+  background: url("../../assets/LoginButton.png");
+  background-size: 100%;
+  width: 220px;
+  height: 65px;
+  margin-left: 290px;
   margin-top: 10px;
 }
-.card-content {
-  display: flex;
-  justify-content: left;
-  align-items: center;
-  border-left: 7px solid #455a64;
-  margin-top: -2px;
-  padding: 14px;
+
+.NameNotNull,
+.PasswordNotNull {
+  margin-left: 200px;
 }
-.card-content span {
-  font-size: 16px;
-  font-weight: 900;
+
+input::-webkit-input-placeholder,
+input::-ms-input-placeholder {
+  color: #2abeb2;
 }
 </style>

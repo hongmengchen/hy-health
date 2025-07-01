@@ -63,10 +63,10 @@ export default {
               .dispatch("app/login", this.loginForm)
               .then(() => {
                 this.$store.dispatch("app/setMenuList");
-                this.$router.replace("/");
-                // setTimeout(() => {
-                //
-                // }, 1200);
+                setTimeout(() => {
+                  // 使用 push 替代 replace
+                  this.$router.push("/home");
+                }, 1200);
               })
               .catch(() => {
                 this.$message.error("账号或密码错误");
