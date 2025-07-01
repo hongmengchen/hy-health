@@ -9,8 +9,8 @@ export const constantRoutes = [
         name: 'login',
         component: Login,
         meta: {
-            title: '登录'
-            , keepAlive: false
+            title: '登录',
+            keepAlive: false
         }
     },
     {

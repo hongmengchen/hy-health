@@ -83,6 +83,11 @@ export default {
       });
       return arr;
     },
+  },
+
+  mounted() {
+    let array = this.$store.getters.menuList.slice(2)[0].children;
+    this.submenuList = this.handleMenuListData(array, []);
   }
 };
 </script>

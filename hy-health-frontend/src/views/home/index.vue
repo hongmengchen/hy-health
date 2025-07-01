@@ -30,6 +30,7 @@
 <script>
 export default {
   name: "welcomeView",
+
   data() {
     return {
       administrators: "admin",
