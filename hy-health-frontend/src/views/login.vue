@@ -30,7 +30,7 @@
               </div>
             </el-form-item>
             <el-form-item>
-              <button class="LoginBtn" @click="handleLogin('loginForm')"/>
+              <button type="button" class="LoginBtn" @click="handleLogin('loginForm')"/>
             </el-form-item>
           </div>
         </el-form>
@@ -64,8 +64,7 @@ export default {
               .then(() => {
                 this.$store.dispatch("app/setMenuList");
                 setTimeout(() => {
-                  // 使用 push 替代 replace
-                  this.$router.push("/home");
+                  this.$router.push("/");
                 }, 1200);
               })
               .catch(() => {

@@ -19,7 +19,9 @@ const mutations = {
     const array = constantRoutes.concat(payload)
     state.menuList = array
     router.options.routes = array
-    router.addRoutes([...array])
+    array.forEach(route => {
+      router.addRoute(route)
+    })
   }
 };
 const actions = {
