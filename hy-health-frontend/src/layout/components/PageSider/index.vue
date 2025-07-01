@@ -1,23 +1,24 @@
 <template>
   <div>
     <el-menu
-      class="el-menu-vertical-demo"
-      background-color="#2abeb2"
-      text-color="#000000"
-      active-text-color="#ffffff"
-      router
-      :default-active="$route.path"
+        class="el-menu-vertical-demo"
+        background-color="#2abeb2"
+        text-color="#000000"
+        active-text-color="#ffffff"
+        router
+        :default-active="$route.path"
     >
       <div class="MenuBackground">
-        <!-- 使用 Vue 3 原生 <template> 替代 vue-fragment -->
         <template v-for="(item, index) in submenuList" :key="index">
           <!-- 一级菜单（没有任何子级菜单）-->
           <el-menu-item :index="item.path" v-if="!item.children">
             <i :class="item.icon"></i>
-            <span>{{ item.title }}</span>
+            <span>
+            {{ item.title }}
+          </span>
           </el-menu-item>
           <!-- 一级菜单（有子级菜单）-->
-          <el-submenu :index="item.path" v-else>
+          <el-sub-menu :index="item.path" v-else>
             <template v-slot:title>
               <i :class="item.icon"></i>
               <span>{{ item.title }}</span>
@@ -30,22 +31,22 @@
                 <span>{{ i.title }}</span>
               </el-menu-item>
               <!-- 判断二级菜单（有三级菜单）-->
-              <el-submenu :index="i.path" v-if="i.list">
+              <el-sub-menu :index="i.path" v-if="i.list">
                 <template v-slot:title>
                   <i :class="i.icon"></i>
                   <span>{{ i.title }}</span>
                 </template>
                 <el-menu-item
-                  :index="j.path"
-                  v-for="(j, index) in i.list"
-                  :key="index"
+                    :index="j.path"
+                    v-for="(j, index) in i.list"
+                    :key="index"
                 >
                   <i :class="j.icon"></i>
                   <span>{{ j.title }}</span>
                 </el-menu-item>
-              </el-submenu>
+              </el-sub-menu>
             </template>
-          </el-submenu>
+          </el-sub-menu>
         </template>
       </div>
     </el-menu>
@@ -53,29 +54,35 @@
 </template>
 
 <script>
+import {useRoute} from "vue-router";
+
 export default {
   name: "PageSider",
+
   data() {
     return {
-      submenuList: []
+      submenuList: [],
     };
   },
-  mounted() {
-    // Vue 3 选项式 API 的 mounted 生命周期
-    let array = this.$store.getters.menuList.slice(2)[0]?.children || [];
-    this.submenuList = this.handleMenuListData(array, []);
+
+  setup() {
+    const {$route} = useRoute();
+    return {
+      $route
+    };
   },
+
   methods: {
     handleMenuListData(data, arr) {
       data.forEach((datas) => {
         arr.push({
           path: datas.path,
           title: datas.meta.title,
-          icon: "el-icon-menu"
+          icon: "el-icon-menu",
         });
       });
       return arr;
-    }
+    },
   }
 };
 </script>

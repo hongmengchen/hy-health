@@ -20,10 +20,9 @@
 <script>
 import PageSider from "./components/PageSider/index.vue";
 import PageHeader from "./components/PageHeader/index.vue";
-
 export default {
   name: "LayoutIndex",
-  components: {PageSider, PageHeader},
+  components: { PageSider, PageHeader },
 };
 </script>
 
@@ -35,25 +34,20 @@ export default {
   top: 0;
   bottom: 0;
 }
-
 .page-sider {
   height: 100%;
 }
-
 .el-header {
   padding: 0;
   margin: 0;
   /*line-height: 100px;*/
 }
-
 .main-view {
   padding: 0;
 }
-
 .v-leave-active {
   animation: fadeOut .4s linear;
 }
-
 .v-enter-active {
   animation: fadeIn .5s linear;
 }

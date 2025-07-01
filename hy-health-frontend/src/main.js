@@ -10,6 +10,7 @@ import _ from 'lodash'
 import './style/reset.css'
 import 'animate.css'
 import ElementPlus from 'element-plus'
+  import "element-plus/dist/index.css";
 
 // 创建 Vue 应用实例
 const app = createApp(App)

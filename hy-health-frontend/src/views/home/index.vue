@@ -1,32 +1,24 @@
 <template>
-  <div class="LoginBackground">
-    <div class="LoginForm">
-      <div class="big-contain">
-        <!-- 原有轮播图 -->
-        <el-carousel :interval="3000" height="450px" trigger="click" arrow="hover">
-          <el-carousel-item v-for="(url, index) in picList" :key="index">
-            <el-image :src="url.image" fit="contain"></el-image>
-          </el-carousel-item>
-        </el-carousel>
+  <div class="home-container">
+    <!-- 轮播图 -->
+    <el-carousel class="home-carousel" :interval="4000" type="card" height="400px">
+      <el-carousel-item v-for="(item, index) in carouselItems" :key="index">
+        <img :src="item.image" class="carousel-image" />
+      </el-carousel-item>
+    </el-carousel>
 
-        <!-- 卡片列表区域 -->
-        <div class="card-list">
-          <el-card
-            :body-style="{ padding: '0px' }"
-            v-for="(card, index) in cardList"
-            :key="index"
-            shadow="hover"
-          >
-            <el-image
-              style="width: 200px; height: 150px;"
-              :src="card.pic"
-              fit="cover"
-            />
-            <div class="card-content">
-              <span>{{ card.content }}</span>
-            </div>
-          </el-card>
+    <!-- 功能模块 -->
+    <div class="module-grid">
+      <div
+        v-for="(module, index) in modules"
+        :key="index"
+        class="module-card"
+        @click="navigateTo(module.path)"
+      >
+        <div class="module-icon">
+          <i :class="module.icon"></i>
         </div>
+        <div class="module-title">{{ module.title }}</div>
       </div>
     </div>
   </div>
@@ -34,126 +26,103 @@
 
 <script>
 export default {
-  name: "HomeView",
+  name: "HomePage",
   data() {
     return {
-      picList: [
-        { image: require('../../assets/hUlLAP.png') },
-        { image: require('../../assets/hUlH0I.png') },
-        { image: require('../../assets/hUlOtf.jpg') },
-        { image: require('../../assets/hUlb7t.jpg') },
-        { image: require('../../assets/hUl7nA.jpg') }
+      // 轮播图数据
+      carouselItems: [
+        { image: require("../../assets/hUlLAP.png") },
+        { image: require("../../assets/hUlH0I.png") },
+        { image: require("../../assets/hUlOtf.jpg") }
       ],
-      cardList: [
+
+      // 功能模块数据
+      modules: [
         {
-          pic: require('../../assets/hUDHDP.jpg'),
-          content: "基础信息管理",
+          title: "基础信息管理",
+          icon: "el-icon-setting",
+          path: "/info/basic"
         },
         {
-          pic: require('../../assets/hU0KDf.jpg'),
-          content: "药品信息管理",
+          title: "药品信息管理",
+          icon: "el-icon-medicine-box",
+          path: "/info/drug"
         },
         {
-          pic: require('../../assets/hUBref.jpg'),
-          content: "医保政策管理",
+          title: "医保政策管理",
+          icon: "el-icon-document",
+          path: "/policy/insurance"
         },
         {
-          pic: require('../../assets/hU0yG9.jpg'),
-          content: "医药公司政策管理",
+          title: "医生信息管理",
+          icon: "el-icon-user",
+          path: "/doctors"
         },
         {
-          pic: require('../../assets/hUB2Wj.jpg'),
-          content: "医生信息管理",
+          title: "医药公司政策",
+          icon: "el-icon-office-building",
+          path: "/policy/company"
         },
         {
-          pic: require('../../assets/hUDYn0.jpg'),
-          content: "必备材料管理",
-        },
-      ],
+          title: "必备材料管理",
+          icon: "el-icon-tickets",
+          path: "/materials"
+        }
+      ]
     };
   },
+  methods: {
+    navigateTo(path) {
+      this.$router.push(path);
+    }
+  }
 };
 </script>
 
-<style scoped>
-.LoginBackground {
-  background: url("../../assets/LoginBackground.jpg") no-repeat;
-  background-size: cover;
+<style scoped>.home-container {
+  padding: 20px;
+}
+
+.home-carousel {
+  margin-bottom: 30px;
+}
+
+.carousel-image {
   width: 100%;
   height: 100%;
-  overflow: hidden;
+  object-fit: cover;
+  border-radius: 8px;
 }
 
-.LoginForm {
-  background: url("../../assets/Login.png") no-repeat;
-  background-size: 800px 599px;
-  width: 1000px;
-  height: 800px;
-  margin-left: 555px;
-  margin-top: 100px;
-  overflow: hidden;
-}
-
-.big-contain {
-  margin-left: -60px;
-  padding: 20px;
-}
-
-/* 保留原有卡片样式 */
-.card-list {
-  display: flex;
-  flex-wrap: wrap;
+.module-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
   gap: 20px;
-  padding: 20px;
+  margin-top: 20px;
 }
 
-.card-content {
-  padding: 10px;
+.module-card {
+  background-color: #fff;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+  cursor: pointer;
+  transition: transform 0.2s;
   text-align: center;
 }
 
-/* 输入框样式（未使用，但保留结构一致性） */
-.UserName,
-.PassWord {
-  overflow: hidden;
-  border: 2px solid #2abeb2;
-  border-radius: 20px;
-  margin-left: 200px;
-  height: 70px;
-  width: 530px;
+.module-card:hover {
+  transform: translateY(-5px);
 }
 
-.Input {
-  overflow: hidden;
-  margin-left: 20px;
-  height: 80px;
-  font-size: 35px;
+.module-icon {
+  font-size: 48px;
   color: #2abeb2;
+  margin-bottom: 15px;
 }
 
-.Logo {
-  overflow: hidden;
-  margin-left: 15px;
-  margin-bottom: 5px;
-}
-
-.LoginBtn {
-  overflow: hidden;
-  background: url("../../assets/LoginButton.png");
-  background-size: 100%;
-  width: 220px;
-  height: 65px;
-  margin-left: 290px;
-  margin-top: 10px;
-}
-
-.NameNotNull,
-.PasswordNotNull {
-  margin-left: 200px;
-}
-
-input::-webkit-input-placeholder,
-input::-ms-input-placeholder {
-  color: #2abeb2;
+.module-title {
+  font-size: 16px;
+  color: #333;
 }
 </style>
