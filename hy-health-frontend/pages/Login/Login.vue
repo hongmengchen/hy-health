@@ -113,7 +113,7 @@ const handleLogin = () => {
       .then(() => {
         store.dispatch('app/setMenuList')
         setTimeout(() => {
-          router.replace('/')
+          router.replace('/pages/home/home')
         }, 1200)
       })
       .catch(() => {
