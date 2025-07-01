@@ -1,128 +1,102 @@
+<!--欢迎页面  -->
 <template>
-  <div class="home-container">
-    <!-- 轮播图 -->
-    <el-carousel class="home-carousel" :interval="4000" type="card" height="400px">
-      <el-carousel-item v-for="(item, index) in carouselItems" :key="index">
-        <img :src="item.image" class="carousel-image" />
+  <div>
+    <el-carousel :interval="3000" height="450px" trigger="click" arrow="hover">
+      <el-carousel-item v-for="(url, index) in picList" :key="index">
+        <el-image :src="url.image" fit="contain"></el-image>
       </el-carousel-item>
     </el-carousel>
 
-    <!-- 功能模块 -->
-    <div class="module-grid">
-      <div
-        v-for="(module, index) in modules"
-        :key="index"
-        class="module-card"
-        @click="navigateTo(module.path)"
+    <div class="card-list">
+      <el-card
+          :body-style="{ padding: '0px' }"
+          v-for="(card, index) in cardList"
+          :key="index"
+          shadow="hover"
       >
-        <div class="module-icon">
-          <i :class="module.icon"></i>
+        <el-image
+            style="width: 200px; height: 150px;"
+            :src="card.pic"
+            fit="cover"
+        />
+        <div class="card-content">
+          <span>{{ card.content }}</span>
         </div>
-        <div class="module-title">{{ module.title }}</div>
-      </div>
+      </el-card>
     </div>
   </div>
 </template>
 
 <script>
 export default {
-  name: "HomePage",
+  name: "welcomeView",
   data() {
     return {
-      // 轮播图数据
-      carouselItems: [
-        { image: require("../../assets/hUlLAP.png") },
-        { image: require("../../assets/hUlH0I.png") },
-        { image: require("../../assets/hUlOtf.jpg") }
+      administrators: "admin",
+      picList: [
+        {image: require('../../assets/hUlLAP.png')},
+        {image: require('../../assets/hUlH0I.png')},
+        {image: require('../../assets/hUlOtf.jpg')},
+        {image: require('../../assets/hUlb7t.jpg')},
+        {image: require('../../assets/hUl7nA.jpg')}
       ],
-
-      // 功能模块数据
-      modules: [
+      cardList: [
         {
-          title: "基础信息管理",
-          icon: "el-icon-setting",
-          path: "/info/basic"
+          pic: require('../../assets/hUDHDP.jpg'),
+          content: "基础信息管理",
         },
         {
-          title: "药品信息管理",
-          icon: "el-icon-medicine-box",
-          path: "/info/drug"
+          pic: require('../../assets/hU0KDf.jpg'),
+          content: "药品信息管理",
         },
         {
-          title: "医保政策管理",
-          icon: "el-icon-document",
-          path: "/policy/insurance"
+          pic: require('../../assets/hUBref.jpg'),
+          content: "医保政策管理",
         },
         {
-          title: "医生信息管理",
-          icon: "el-icon-user",
-          path: "/doctors"
+          pic: require('../../assets/hU0yG9.jpg'),
+          content: "医药公司政策管理",
         },
         {
-          title: "医药公司政策",
-          icon: "el-icon-office-building",
-          path: "/policy/company"
+          pic: require('../../assets/hUB2Wj.jpg'),
+          content: "医生信息管理",
         },
         {
-          title: "必备材料管理",
-          icon: "el-icon-tickets",
-          path: "/materials"
-        }
-      ]
+          pic: require('../../assets/hUDYn0.jpg'),
+          content: "必备材料管理",
+        },
+      ],
     };
   },
-  methods: {
-    navigateTo(path) {
-      this.$router.push(path);
-    }
-  }
 };
 </script>
-
-<style scoped>.home-container {
-  padding: 20px;
+<style lang="less" scoped>
+.el-carousel__item:nth-child(2n) {
+  background-color: #99a9bf;
 }
 
-.home-carousel {
-  margin-bottom: 30px;
+.el-carousel__item:nth-child(2n + 1) {
+  background-color: #d3dce6;
 }
 
-.carousel-image {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  border-radius: 8px;
+.card-list {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  margin-top: 10px;
 }
 
-.module-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-  gap: 20px;
-  margin-top: 20px;
+.card-content {
+  display: flex;
+  justify-content: left;
+  align-items: center;
+  border-left: 7px solid #455a64;
+  margin-top: -2px;
+  padding: 14px;
 }
 
-.module-card {
-  background-color: #fff;
-  padding: 20px;
-  border-radius: 8px;
-  box-shadow: 0 2px 8px rgba(0,0,0,0.08);
-  cursor: pointer;
-  transition: transform 0.2s;
-  text-align: center;
-}
-
-.module-card:hover {
-  transform: translateY(-5px);
-}
-
-.module-icon {
-  font-size: 48px;
-  color: #2abeb2;
-  margin-bottom: 15px;
-}
-
-.module-title {
+.card-content span {
   font-size: 16px;
-  color: #333;
+  font-weight: 900;
 }
 </style>
