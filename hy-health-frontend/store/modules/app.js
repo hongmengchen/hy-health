@@ -1,12 +1,19 @@
-import { login } from "../../api/Login";
+// store/modules/app.js
+import { login } from "/api/login";
+
 const state = {
   token: "",
+  userInfo: null
 };
 const mutations = {
   SET_TOKEN(state, payload) {
     state.token = payload;
+  },
+  SET_USER_INFO(state, userInfo) {
+    state.userInfo = userInfo;
   }
 };
+
 const actions = {
   // 登录接口
   login({ commit }, loginInfo) {
@@ -29,6 +36,7 @@ const actions = {
     });
   }
 };
+
 export default {
   namespaced: true,
   state,
