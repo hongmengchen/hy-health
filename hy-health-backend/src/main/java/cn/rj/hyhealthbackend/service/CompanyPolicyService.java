@@ -95,4 +95,16 @@ public class CompanyPolicyService {
         }
         return Msg.fail().mess("删除失败");
     }
+
+    /**
+     * 获取首页展示的医药公司政策
+     *
+     * @return
+     */
+     public List<CompanyPolicyModel> getFirstPolicyWithPage() {
+        PageHelper.startPage(1, 4);
+        List<CompanyPolicyModel> list = companyPolicyMapper.getAllPolicy(new CompanyPolicyParam());
+        PageInfo<CompanyPolicyModel> info = new PageInfo<>(list,4);
+        return info.getList();
+    }
 }
