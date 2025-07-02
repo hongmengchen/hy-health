@@ -50,7 +50,8 @@
                     placeholder="选择日期"
                     size="small"
                     v-model="searchLimit.publishTime"
-                    value-format="yyyy-MM-dd"
+                    value-format="YYYY-MM-DD"
+                    @change="handlePublishTimeChange"
                 />
               </el-form-item>
             </div>
@@ -265,7 +266,7 @@ export default {
         // 查询条件
         id: "",
         title: "",
-        publishTime: "",
+        publishTime: null,
         city: "",
       },
       addForm: {
@@ -291,6 +292,7 @@ export default {
       this.currentPage = event.page;
       this.getMedicalPolicyInfo();
     },
+
     // 查询医药政策信息
     getMedicalPolicyInfo() {
       this.$store.dispatch(
@@ -298,6 +300,7 @@ export default {
           this.params
       );
     },
+
     // 条件查询
     handleLimitedSearch(formName) {
       this.$refs[formName].validate((valid) => {
@@ -309,6 +312,7 @@ export default {
         }
       });
     },
+
     //新增医保政策
     handleAddMedicalPolicy(formName) {
       this.$refs[formName].validate((valid) => {
@@ -328,6 +332,7 @@ export default {
         }
       });
     },
+
     // 删除医保政策
     handleDeletMedicalPolicy(id, title) {
       this.$confirm(`确定要删除“${title}”的相关信息吗？`, "提示", {
@@ -348,6 +353,7 @@ export default {
             });
           });
     },
+
     // 控制修改医保政策信息的表单弹出
     handleModifyFormVisible(id, title, message, city) {
       this.modifyForm = {
@@ -358,6 +364,7 @@ export default {
       };
       this.modifyFormVisible = true;
     },
+
     // 修改医保政策信息
     handleModifyMedicalPolicy(formName) {
       this.$refs[formName].validate((valid) => {
@@ -383,12 +390,23 @@ export default {
         }
       });
     },
+
     // 每次关闭表单的时候清除验证器和输入框内容
     handleAddClose() {
       this.$refs.addForm.resetFields();
     },
     handleModifyClose() {
       this.$refs.modifyForm.clearValidate();
+    },
+
+    // 选择时间
+    handlePublishTimeChange(date) {
+      console.log("选择的日期:", date); // 查看控制台输出
+      // 添加格式校验
+      if (date && !/^\d{4}-\d{2}-\d{2}$/.test(date)) {
+        this.$message.error("请选择有效的日期格式");
+        this.searchLimit.publishTime = null;
+      }
     },
   },
   mounted() {
