@@ -4,12 +4,14 @@
     <!-- 头部区域 -->
     <el-header height="76px">
       <h2>城市信息管理</h2>
+
       <!-- 面包屑导航区域 -->
       <el-breadcrumb separator="/">
         <el-breadcrumb-item :to="{ path: '/' }">首页</el-breadcrumb-item>
         <el-breadcrumb-item>城市信息管理</el-breadcrumb-item>
       </el-breadcrumb>
     </el-header>
+
     <!-- 主体内容区域 -->
     <el-main>
       <!--header -->
@@ -22,6 +24,7 @@
         ></button
         >
       </div>
+
       <!-- 搜索 -->
       <el-row :gutter="20">
         <el-col :span="23" class="search-col">
@@ -36,6 +39,7 @@
           </keep-alive>
         </el-col>
       </el-row>
+
       <!-- 表格 -->
       <el-table
           stripe
@@ -68,12 +72,13 @@
         ></pagination>
       </div>
     </el-main>
+
     <!-- 点击新增后的弹窗 -->
     <el-dialog
         title="新增城市"
-        v-model:visible="addFormVisible"
-        :modal-append-to-body="false"
-        @close="handleAddClose"
+        v-model="addFormVisible"
+        :append-to-body="false"
+        @closed="handleAddClose"
     >
       <el-form :model="addForm" hide-required-asterisk ref="addForm">
         <el-form-item

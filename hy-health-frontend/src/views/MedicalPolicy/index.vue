@@ -5,6 +5,7 @@
     <el-header height="76px">
       <h2 v-if="hasRole">医保政策管理</h2>
       <h2 v-else>医保政策查询</h2>
+
       <!-- 面包屑导航区域 -->
       <el-breadcrumb separator="/">
         <el-breadcrumb-item :to="{ path: '/' }">首页</el-breadcrumb-item>
@@ -12,6 +13,7 @@
         <el-breadcrumb-item v-else>医保政策查询</el-breadcrumb-item>
       </el-breadcrumb>
     </el-header>
+
     <!-- 主体内容区域 -->
     <el-main>
       <!--header -->
@@ -87,6 +89,7 @@
           >
         </div>
       </div>
+
       <!-- 表格 -->
       <div class="table-policy">
         <el-table
@@ -134,6 +137,7 @@
           </el-table-column>
         </el-table>
       </div>
+
       <!-- 分页 -->
       <div class="pagination">
         <pagination
@@ -146,12 +150,13 @@
         ></pagination>
       </div>
     </el-main>
+
     <!-- 点击新增后的弹窗 -->
     <el-dialog
         title="新增医保政策"
-        v-model:visible="addFormVisible"
-        :modal-append-to-body="false"
-        @close="handleAddClose"
+        v-model="addFormVisible"
+        :append-to-body="false"
+        @closed="handleAddClose"
     >
       <el-form
           :model="addForm"
@@ -189,12 +194,13 @@
         </div>
       </template>
     </el-dialog>
+
     <!-- 点击修改后的弹窗 -->
     <el-dialog
         title="修改医保政策信息"
-        v-model:visible="modifyFormVisible"
-        :modal-append-to-body="false"
-        @close="handleModifyClose"
+        v-model="modifyFormVisible"
+        :append-to-body="false"
+        @closed="handleModifyClose"
     >
       <el-form
           :model="modifyForm"

@@ -86,6 +86,7 @@
           </template>
         </el-table-column>
       </el-table>
+
       <!-- 分页 -->
       <div class="pagination">
         <pagination
@@ -98,12 +99,13 @@
         ></pagination>
       </div>
     </el-main>
+
     <!-- 点击新增后的弹窗 -->
     <el-dialog
         title="新增医生信息"
-        v-model:visible="addFormVisible"
-        :modal-append-to-body="false"
-        @close="handleAddClose"
+        v-model="addFormVisible"
+        :append-to-body="false"
+        @closed="handleAddClose"
     >
       <el-form
           :model="addForm"
@@ -204,12 +206,13 @@
         </div>
       </template>
     </el-dialog>
+
     <!-- 点击修改后的弹窗 -->
     <el-dialog
         title="修改医生信息"
-        v-model:visible="modifyFormVisible"
-        :modal-append-to-body="false"
-        @close="handleModifyClose"
+        v-model="modifyFormVisible"
+        :append-to-body="false"
+        @closed="handleModifyClose"
     >
       <el-form
           :model="modifyForm"

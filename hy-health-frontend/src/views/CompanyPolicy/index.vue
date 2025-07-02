@@ -5,6 +5,7 @@
     <el-header height="76px">
       <h2 v-if="hasRole">医药公司政策管理</h2>
       <h2 v-else>医药公司政策查询</h2>
+
       <!-- 面包屑导航区域 -->
       <el-breadcrumb separator="/">
         <el-breadcrumb-item :to="{ path: '/' }">首页</el-breadcrumb-item>
@@ -12,19 +13,20 @@
         <el-breadcrumb-item v-else>医药公司政策查询</el-breadcrumb-item>
       </el-breadcrumb>
     </el-header>
+
     <!-- 主体内容区域 -->
     <el-main>
       <!--header -->
       <div class="main-title">
         <h3>医药公司政策列表</h3>
         <button
-
             class="new-add"
             @click="addFormVisible = true"
             v-if="hasRole"
         ></button
         >
       </div>
+
       <!-- 搜索 -->
       <el-row :gutter="20">
         <el-col :span="23" class="search-col">
@@ -81,6 +83,7 @@
           </template>
         </el-table-column>
       </el-table>
+
       <!-- 分页 -->
       <div class="pagination">
         <pagination
@@ -93,12 +96,13 @@
         ></pagination>
       </div>
     </el-main>
+
     <!-- 点击新增后的弹窗 -->
     <el-dialog
         title="新增医药公司政策"
-        v-model:visible="addFormVisible"
-        :modal-append-to-body="false"
-        @close="handleAddClose"
+        v-model="addFormVisible"
+        :append-to-body="false"
+        @closed="handleAddClose"
     >
       <el-form
           :model="addForm"
@@ -147,12 +151,13 @@
         </div>
       </template>
     </el-dialog>
+
     <!-- 点击修改后的弹窗 -->
     <el-dialog
         title="修改医药公司政策信息"
-        v-model:visible="modifyFormVisible"
-        :modal-append-to-body="false"
-        @close="handleModifyClose"
+        v-model="modifyFormVisible"
+        :append-to-body="false"
+        @closed="handleModifyClose"
     >
       <el-form
           :model="modifyForm"

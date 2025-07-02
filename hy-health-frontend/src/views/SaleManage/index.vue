@@ -4,24 +4,26 @@
     <!-- 头部区域 -->
     <el-header height="76px">
       <h2>销售地点管理</h2>
+
       <!-- 面包屑导航区域 -->
       <el-breadcrumb separator="/">
         <el-breadcrumb-item :to="{ path: '/' }">首页</el-breadcrumb-item>
         <el-breadcrumb-item>销售地点管理</el-breadcrumb-item>
       </el-breadcrumb>
     </el-header>
+
     <!-- 主体内容区域 -->
     <el-main>
       <!--header -->
       <div class="main-title">
         <h3>销售地点列表</h3>
         <button
-
             class="new-add"
             @click="addFormVisible = true"
             v-if="hasRole"
         />
       </div>
+
       <!-- 搜索 -->
       <el-row :gutter="20">
         <el-col :span="23" class="search-col">
@@ -36,6 +38,7 @@
           </keep-alive>
         </el-col>
       </el-row>
+
       <!-- 表格 -->
       <el-table
           stripe
@@ -43,9 +46,9 @@
           :data="tableData.list"
           highlight-current-row
       >
-        <el-table-column prop="saleId" label="药店编号" sortable />
-        <el-table-column prop="saleName" label="药店名称" />
-        <el-table-column prop="salePhone" label="药店电话" />
+        <el-table-column prop="saleId" label="药店编号" sortable/>
+        <el-table-column prop="saleName" label="药店名称"/>
+        <el-table-column prop="salePhone" label="药店电话"/>
         <el-table-column label="操作" v-if="hasRole">
           <!-- 通过slot-scope拿到对应行的数据 -->
           <template #default="scope">
@@ -81,12 +84,13 @@
         ></pagination>
       </div>
     </el-main>
+
     <!-- 点击新增后的弹窗 -->
     <el-dialog
         title="新增销售地点"
-        v-model:visible="addFormVisible"
-        :modal-append-to-body="false"
-        @close="handleAddClose"
+        v-model="addFormVisible"
+        :append-to-body="false"
+        @closed="handleAddClose"
     >
       <el-form
           :model="addForm"
@@ -120,12 +124,13 @@
         </div>
       </template>
     </el-dialog>
+
     <!-- 点击修改后的弹窗 -->
     <el-dialog
         title="修改销售地点信息"
-        v-model:visible="modifyFormVisible"
-        :modal-append-to-body="false"
-        @close="handleModifyClose"
+        v-model="modifyFormVisible"
+        :append-to-body="false"
+        @closed="handleModifyClose"
     >
       <el-form
           :model="modifyForm"
@@ -171,7 +176,7 @@
 
 <script>
 import Pagination from "../../components/Pagination";
-import { mapGetters } from "vuex";
+import {mapGetters} from "vuex";
 import rules from "../../utils/validator";
 
 export default {
