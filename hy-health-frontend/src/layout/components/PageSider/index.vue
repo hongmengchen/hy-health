@@ -67,7 +67,6 @@ export default {
 
   setup() {
     const route = useRoute();
-    console.log('Current route:', route); // Debug log to verify route existence
     return {
       route
     };
