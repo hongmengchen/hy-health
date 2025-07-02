@@ -2,7 +2,9 @@
 <!DOCTYPE mapper
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
 <mapper namespace="cn.rj.hyhealthbackend.mapper.SaleMapper">
+
     <!--查询所有的药店信息,name不为空则模糊查询-->
     <select id="getAllSale" resultType="cn.rj.hyhealthbackend.domain.Sale">
         select * from sale
@@ -14,28 +16,36 @@
         </if>
     </select>
 
-    <!--根据id查找一个药店信息-->
-    <select id="getSaleById" resultType="cn.rj.hyhealthbackend.domain.Sale">
-        select * from sale where sale_id=#{id} limit 1
-    </select>
-
     <!--添加一个药店信息-->
     <insert id="saveSale" parameterType="cn.rj.hyhealthbackend.entity.SaleEntity">
         <selectKey resultType="java.lang.Long" order="AFTER" keyProperty="total">
             select COUNT(*) from sale
         </selectKey>
-        insert into sale(sale_name,sale_phone,updatetime,createtime)
-        values (#{saleName},#{salePhone},#{updatetime},#{createtime})
+        insert into sale(sale_name,sale_phone,updatetime,createtime,lng,lat,address)
+        values (#{saleName},#{salePhone},#{updatetime},#{createtime},#{lng},#{lat},#{address})
     </insert>
 
     <!--根据id删除药店信息-->
     <delete id="deleteSaleById">
-        delete from sale where sale_id=#{id}
+        delete
+        from sale
+        where sale_id = #{id}
     </delete>
+
+    <!--根据id查找一个药店信息-->
+    <select id="getSaleById" resultType="cn.rj.hyhealthbackend.domain.Sale">
+        select *
+        from sale
+        where sale_id = #{id}
+        limit 1
+    </select>
 
     <!--根据id更新药店信息-->
     <update id="updateSaleById">
-        update sale set sale_name=#{saleName},sale_phone=#{salePhone},updatetime=#{updatetime}
-        where sale_id=#{saleId}
+        update sale
+        set sale_name=#{saleName},
+            sale_phone=#{salePhone},
+            updatetime=#{updatetime}
+        where sale_id = #{saleId}
     </update>
 </mapper>
