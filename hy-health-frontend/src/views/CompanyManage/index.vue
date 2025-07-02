@@ -4,12 +4,14 @@
     <!-- 头部区域 -->
     <el-header height="76px">
       <h2>医药公司信息管理</h2>
+
       <!-- 面包屑导航区域 -->
       <el-breadcrumb separator="/">
         <el-breadcrumb-item :to="{ path: '/' }">首页</el-breadcrumb-item>
         <el-breadcrumb-item>医药公司信息管理</el-breadcrumb-item>
       </el-breadcrumb>
     </el-header>
+
     <!-- 主体内容区域 -->
     <el-main>
       <!--header -->
@@ -35,6 +37,7 @@
           </keep-alive>
         </el-col>
       </el-row>
+
       <!-- 表格 -->
       <el-table
           stripe
@@ -70,6 +73,7 @@
           </template>
         </el-table-column>
       </el-table>
+
       <!-- 分页 -->
       <div class="pagination">
         <pagination
@@ -82,12 +86,13 @@
         ></pagination>
       </div>
     </el-main>
+
     <!-- 点击新增后的弹窗 -->
     <el-dialog
         title="新增医药公司"
-        v-model:visible="addFormVisible"
-        :modal-append-to-body="false"
-        @close="handleAddClose"
+        v-model="addFormVisible"
+        :append-to-body="false"
+        @closed="handleAddClose"
     >
       <el-form
           :model="addForm"
@@ -125,12 +130,13 @@
         </div>
       </template>
     </el-dialog>
+
     <!-- 点击修改后的弹窗 -->
     <el-dialog
         title="修改医药公司信息"
-        v-model:visible="modifyFormVisible"
-        :modal-append-to-body="false"
-        @close="handleModifyClose"
+        v-model="modifyFormVisible"
+        :append-to-body="false"
+        @closed="handleModifyClose"
     >
       <el-form
           :model="modifyForm"
