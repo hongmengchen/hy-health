@@ -1,5 +1,5 @@
 import axios from "axios";
-import { ElMessage } from "element-plus";
+import {ElMessage} from "element-plus";
 import router from "../router/index";
 
 axios.default.withCredentials = true;
@@ -7,44 +7,44 @@ axios.default.withCredentials = true;
 let service = axios.create({
 
     baseURL: "http://localhost:8080/api", //远程服务器地址
-  timeout: 5000, // 请求超时时间
+    timeout: 5000, // 请求超时时间
 });
 // request 拦截器
 service.interceptors.request.use(
-  (config) => {
-    if (localStorage.getItem("token")) {
-      config.headers = {
-        Authorization: localStorage.getItem("token"), // 携带权限参数
-      };
+    (config) => {
+        if (localStorage.getItem("token")) {
+            config.headers = {
+                Authorization: localStorage.getItem("token"), // 携带权限参数
+            };
+        }
+        return config;
+    },
+    (error) => {
+        Promise.reject(error);
     }
-    return config;
-  },
-  (error) => {
-    Promise.reject(error);
-  }
 );
 
 //response 拦截器
 service.interceptors.response.use(
-  (response) => {
-    const res = response.data;
-    // code为10006代表token失效，需要重新登录
-    if (res.code == 10006) {
-      ElMessage({
-        type: "error",
-        message: "登录已失效，请重新登录",
-      });
-      setTimeout(() => {
-        localStorage.removeItem("token");
-        localStorage.removeItem('userInfo')
-        router.push("/user/login");
-      }, 500);
+    (response) => {
+        const res = response.data;
+        // code为10006代表token失效，需要重新登录
+        if (res.code == 10006) {
+            ElMessage({
+                type: "error",
+                message: "登录已失效，请重新登录",
+            });
+            setTimeout(() => {
+                localStorage.removeItem("token");
+                localStorage.removeItem('userInfo')
+                router.push("/user/login");
+            }, 500);
+        }
+        return response;
+    },
+    (err) => {
+        return Promise.reject(err);
     }
-    return response;
-  },
-  (err) => {
-    return Promise.reject(err);
-  }
 );
 
 export default service;

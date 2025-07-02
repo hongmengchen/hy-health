@@ -6,7 +6,7 @@
         text-color="#000000"
         active-text-color="#ffffff"
         router
-        :default-active="$route.path"
+        :default-active="route.path"
     >
       <div class="MenuBackground">
         <template v-for="(item, index) in submenuList" :key="index">
@@ -66,9 +66,10 @@ export default {
   },
 
   setup() {
-    const {$route} = useRoute();
+    const route = useRoute();
+    console.log('Current route:', route); // Debug log to verify route existence
     return {
-      $route
+      route
     };
   },
 
@@ -85,9 +86,31 @@ export default {
     },
   },
 
-  mounted() {
+  /*mounted() {
     let array = this.$store.getters.menuList.slice(2)[0].children;
     this.submenuList = this.handleMenuListData(array, []);
+  }*/
+  mounted() {
+    const menuArray = this.$store.getters.menuList.slice(2);
+    if (menuArray.length > 0 && menuArray[0].children) {
+      this.submenuList = this.handleMenuListData(menuArray[0].children, []);
+    } else {
+      this.submenuList = [];
+    }
+  },
+  watch: {
+    '$store.getters.menuList': {
+      handler(newVal) {
+        const menuArray = newVal.slice(2);
+        if (menuArray.length > 0 && menuArray[0].children) {
+          this.submenuList = this.handleMenuListData(menuArray[0].children, []);
+        } else {
+          this.submenuList = [];
+        }
+      },
+      immediate: true,
+      deep: true
+    }
   }
 };
 </script>

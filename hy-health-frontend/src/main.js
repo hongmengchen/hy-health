@@ -6,10 +6,10 @@ import router from './router'
 import store from './store'
 
 // 引入其他依赖
-import _ from 'lodash'
-import './style/reset.css'
-import 'animate.css'
-import ElementPlus from 'element-plus'
+import _ from 'lodash'  // 引入 lodash
+import './style/reset.css'  // 引入样式
+import 'animate.css'  // 引入动画库
+import ElementPlus from 'element-plus'  // 引入 Element Plus
   import "element-plus/dist/index.css";
 
 // 创建 Vue 应用实例

@@ -1,6 +1,6 @@
-// src/router/index.js
 import {createRouter, createWebHistory} from 'vue-router'
 import Login from '../views/login.vue'
+import Layout from "../layout/index.vue";
 import HomeIndex from '../views/home/index.vue'
 
 export const constantRoutes = [
@@ -15,12 +15,27 @@ export const constantRoutes = [
     },
     {
         path: '/',
+        name: 'layout',
+        component: Layout,
+        children: [
+            {
+                path: '/',
+                name: 'home',
+                component: HomeIndex,
+                meta: {title: '首页'}
+            }
+        ]
+    },
+    /*{
+        path: '/',
         name: 'home',
         component: HomeIndex,
         meta: {title: '首页'}
-    }
+    }*/
+  
 ]
 
+// 创建路由实例
 const router = createRouter({
     history: createWebHistory(),
     routes: constantRoutes
