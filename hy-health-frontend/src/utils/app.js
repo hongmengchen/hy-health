@@ -75,3 +75,19 @@ export function judgeModifyResult(res) {
     }
     return res;
 }
+
+// 判断重置密码结果
+export function judgeResetResult(res) {
+    if (res.data.code == 20000) {
+        ElMessage({
+            type: "success",
+            message: "重置密码成功!",
+        });
+    } else {
+        ElMessage({
+            type: "error",
+            message: "重置密码失败!",
+        });
+    }
+    return res;
+}
