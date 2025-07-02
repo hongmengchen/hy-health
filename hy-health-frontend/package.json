@@ -8,6 +8,7 @@
     "lint": "vue-cli-service lint"
   },
   "dependencies": {
+    "@amap/amap-jsapi-loader": "^1.0.1",
     "animate.css": "^4.1.1",
     "axios": "^1.10.0",
     "core-js": "^3.8.3",

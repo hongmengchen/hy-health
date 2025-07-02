@@ -15,7 +15,7 @@
         <!-- 四个图标显示 -->
         <div class="number_container">
           <div class="square">
-            <div icon-class="doc" class="icon" />
+            <div icon-class="doc" class="icon"/>
             <div class="title">
               <div class="subtitle">医师人数</div>
               <div class="number">{{ doctors }}</div>
@@ -23,7 +23,7 @@
           </div>
 
           <div class="square">
-            <div icon-class="bag" class="icon" />
+            <div icon-class="bag" class="icon"/>
             <div class="title">
               <div class="subtitle">药物种类</div>
               <div class="number">{{ drugs }}</div>
@@ -31,7 +31,7 @@
           </div>
 
           <div class="square">
-            <div icon-class="operation" class="icon" />
+            <div icon-class="operation" class="icon"/>
             <div class="title">
               <div class="subtitle">合作企业</div>
               <div class="number">{{ companies }}</div>
@@ -39,7 +39,7 @@
           </div>
 
           <div class="square">
-            <div icon-class="patient" class="icon" />
+            <div icon-class="patient" class="icon"/>
             <div class="title">
               <div class="subtitle">入驻药店</div>
               <div class="number">{{ sales }}</div>
@@ -88,7 +88,7 @@
                 </el-table-column>
 
                 <el-table-column prop="date" width="100">
-                  <template v-slot:header >
+                  <template v-slot:header>
                     <a href="?#/manage/company/policy" target="_blank">More&lt;&lt;</a>
                   </template>
                 </el-table-column>
@@ -104,10 +104,10 @@
 </template>
 
 <script>
-import { mapGetters } from "vuex";
+import {mapGetters} from "vuex";
 import * as echarts from "echarts";
 import "echarts/extension/bmap/bmap";
-import { getAllDashboardInfo } from "@/api/admin/dashboardApi"
+import {getAllDashboardInfo} from "@/api/admin/dashboardApi"
 // import { getAllDoctors, getDoctorKind } from '@/api/doctor'
 // import { getAllDrugs } from '@/api/drug'
 // import { getAllSales } from '@/api/sale'
@@ -124,19 +124,17 @@ export default {
       drugs: 10,
       companies: 10,
       sales: 10,
-      docLevelType:["主任医师","普通医师","实习医师"],
-      docLevel:[],
-      picData:[],
+      docLevelType: ["主任医师", "普通医师", "实习医师"],
+      docLevel: [],
+      picData: [],
 
-      materials:[
+      materials: [
         // {
         //   notice:'医保卡报销额度变高了',
         //   date:'2022-10-5'
         // }
       ],
-      policys:[
-
-      ]
+      policys: []
     };
   },
   mounted() {
@@ -146,56 +144,57 @@ export default {
     // this.initMap()
     // this.barchart()
   },
-  created() {},
+  created() {
+  },
   methods: {
 
-    initData(){
-      getAllDashboardInfo().then((res)=>{
-      let dashboardData = res.data.data.data;
-      console.log(dashboardData)
-      this.doctors = dashboardData.doctorNumb
-      this.drugs = dashboardData.drugNumb
-      this.companies  = dashboardData.companyNumb
-      this.sales = dashboardData.saleNumb
-      console.log(dashboardData.docLevel)
-      this.docLevel.push(dashboardData.docLevel.l1)
-      this.docLevel.push(dashboardData.docLevel.l2)
-      this.docLevel.push(dashboardData.docLevel.l3)
-      this.histogram();
-      let treatMap = dashboardData.treatMap
-      for(var item in treatMap){
-        this.picData.push({
-          name:item,
-          value:treatMap[item]
-        })
-      }
-      this.piechart();
-      let materialsList = dashboardData.materials
-      materialsList.forEach(element => {
-        if(element.message.length>30){
-          element.message = element.message.substr(0,29)+'···'
-          console.log(element.message)
+    initData() {
+      getAllDashboardInfo().then((res) => {
+        let dashboardData = res.data.data.data;
+        console.log(dashboardData)
+        this.doctors = dashboardData.doctorNumb
+        this.drugs = dashboardData.drugNumb
+        this.companies = dashboardData.companyNumb
+        this.sales = dashboardData.saleNumb
+        console.log(dashboardData.docLevel)
+        this.docLevel.push(dashboardData.docLevel.l1)
+        this.docLevel.push(dashboardData.docLevel.l2)
+        this.docLevel.push(dashboardData.docLevel.l3)
+        this.histogram();
+        let treatMap = dashboardData.treatMap
+        for (var item in treatMap) {
+          this.picData.push({
+            name: item,
+            value: treatMap[item]
+          })
         }
-        this.materials.push({
-          notice:element.message,
-          date:element.updateTime
-        })
-      });
-      let policyList = dashboardData.policys
-      policyList.forEach(element => {
-        if(element.message.length>30){
-          element.message = element.message.substr(0,29)+'···'
-          console.log(element.message)
-        }
-        this.policys.push({
-          notice:element.message,
-          date:element.updateTime
-        })
-      });
-      // policys
-      console.log(this.picData)
+        this.piechart();
+        let materialsList = dashboardData.materials
+        materialsList.forEach(element => {
+          if (element.message.length > 30) {
+            element.message = element.message.substr(0, 29) + '···'
+            console.log(element.message)
+          }
+          this.materials.push({
+            notice: element.message,
+            date: element.updateTime
+          })
+        });
+        let policyList = dashboardData.policys
+        policyList.forEach(element => {
+          if (element.message.length > 30) {
+            element.message = element.message.substr(0, 29) + '···'
+            console.log(element.message)
+          }
+          this.policys.push({
+            notice: element.message,
+            date: element.updateTime
+          })
+        });
+        // policys
+        console.log(this.picData)
 
-    })
+      })
     },
     histogram() {
       var chartDom = document.getElementById("histogram");
@@ -304,19 +303,22 @@ export default {
 };
 </script>
 
-<style  scoped>
+<style scoped>
 .el-container {
   height: 100%;
 }
+
 .el-container .el-header {
   background-color: #fff;
   border-bottom: 1px solid #e6e9eb;
   padding: 15px 20px 0 20px;
 }
+
 .el-container .el-header h2 {
   font-size: 20px;
   margin-bottom: 15px;
 }
+
 .el-container .el-main {
   box-sizing: border-box;
   margin: 20px 15px 10px 20px;
@@ -325,16 +327,19 @@ export default {
   padding: 0;
   /* overflow: hidden; */
 }
+
 .el-container .el-main .main-title {
   height: 35px;
   padding: 10px;
   border-bottom: 1px solid #e6e9eb;
   margin-bottom: 10px;
 }
+
 .el-container .el-main .main-title h3 {
   margin-top: 10px;
   float: left;
 }
+
 /* .el-container .el-main .main-title .new-add {
   float: right;
   background: url("../assets/add.png") no-repeat;
@@ -347,15 +352,18 @@ export default {
   margin-left: 20px;
   margin-bottom: 5px;
 }
+
 .el-container .el-table {
   padding: 0px 20px;
   border: 0;
 }
+
 .el-container .el-table .demo-table-expand {
   display: flex;
   flex-direction: column;
   justify-content: center;
 }
+
 .el-container .el-table .demo-table-expand .el-form-item {
   margin: 0;
   flex: 1;
@@ -374,10 +382,12 @@ export default {
   margin-left: 20px;
   height: 800px;
 }
+
 .dashboard-text {
   font-size: 30px;
   line-height: 46px;
 }
+
 .number_container {
   display: flex;
   justify-content: center;
@@ -386,6 +396,7 @@ export default {
   margin-bottom: 20px;
   height: 100px;
 }
+
 .square {
   padding: 20px;
   width: 285px;
@@ -395,12 +406,14 @@ export default {
   border-radius: 15px;
   box-shadow: 0px 12px 26px rgba(16, 30, 115, 0.06);
 }
+
 .father_chart {
   display: flex;
   /* 将父级 div 设置为 flex 容器 */
   justify-content: center;
   /* 将子级 div 在主轴方向上居中对齐 */
 }
+
 .histogram {
   width: 1200px;
   height: 400px;
@@ -411,12 +424,14 @@ export default {
   background-color: white;
   box-shadow: 0px 12px 26px rgba(16, 30, 115, 0.06);
 }
+
 .chartcontainer {
   display: flex;
   justify-content: center;
   align-items: center;
   margin-top: 20px;
 }
+
 .rectangle {
   padding: 20px 20px 20px 20px;
   width: 590px;
@@ -426,38 +441,45 @@ export default {
   box-shadow: 0px 12px 26px rgba(16, 30, 115, 0.06);
   margin: 10px;
 }
+
 .piechart {
   /* margin-left: -10px; */
   margin-top: 40px;
   width: 600px;
   height: 400px;
 }
+
 .map {
   margin-left: -10px;
   width: 600px;
   height: 400px;
 }
+
 .icon {
   width: 50px;
   height: 50px;
   display: inline-block;
 }
+
 .title {
   display: inline-block;
   margin-left: 30px;
   vertical-align: top;
 }
+
 .subtitle {
   font-size: 18px;
   font-weight: 700;
   color: #25282b;
 }
+
 .number {
   margin-top: 12px;
   color: #336cfb;
   font-size: 22px;
   display: inline-block;
 }
+
 .variation {
   display: inline-block;
   margin-left: 15px;
