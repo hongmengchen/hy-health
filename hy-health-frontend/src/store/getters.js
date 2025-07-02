@@ -4,5 +4,6 @@ const getters = {
     salePlaceInfo: (state) => state.saleInfoManage.salePlaceInfo,
     companyInfo: (state) => state.companyInfoManage.companyInfo,
     cityInfo: (state) => state.cityInfoManage.cityInfo,
+    drugInfo: (state) => state.drugInfoManage.drugInfo,
 };
 export default getters;
