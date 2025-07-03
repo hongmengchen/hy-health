@@ -2,35 +2,42 @@
   <div class="LoginBackground">
     <div class="LoginForm">
       <div class="big-contain">
+        <!-- 平台 LOGO -->
+        <img src="@/assets/HomeLogo.png" class="PlatformLogo" alt="平台 Logo" />
+
         <el-form :model="loginForm" ref="loginForm" status-icon>
           <div class="bform">
-            <el-form-item prop="username" :rules="loginRules.usernameRules" class="NameNotNull">
-              <div class="UserName">
-                <img src="../assets/username.png" class="Logo">
+            <el-form-item prop="username" :rules="loginRules.usernameRules">
+              <div class="InputWrapper">
+                <el-icon class="icon"><User /></el-icon>
                 <input
-                    class="Input"
-                    type="text"
-                    v-model="loginForm.username"
-                    autocomplete="off"
-                    placeholder="用户名"
+                  class="Input"
+                  type="text"
+                  v-model="loginForm.username"
+                  autocomplete="off"
+                  placeholder="用户名"
                 />
               </div>
             </el-form-item>
-            <el-form-item prop="password" :rules="loginRules.passwordRules" class="PasswordNotNull">
-              <div class="PassWord">
-                <img src="../assets/password.png" class="Logo">
+
+            <el-form-item prop="password" :rules="loginRules.passwordRules">
+              <div class="InputWrapper">
+                <el-icon class="icon"><Lock /></el-icon>
                 <input
-                    class="Input"
-                    type="password"
-                    v-model="loginForm.password"
-                    autocomplete="off"
-                    placeholder="密码"
-                    @keydown.enter="handleLogin('loginForm')"
+                  class="Input"
+                  type="password"
+                  v-model="loginForm.password"
+                  autocomplete="off"
+                  placeholder="密码"
+                  @keydown.enter="handleLogin('loginForm')"
                 />
               </div>
             </el-form-item>
+
             <el-form-item>
-              <button type="button" class="LoginBtn" @click="handleLogin('loginForm')"/>
+              <button type="button" class="LoginBtn" @click="handleLogin('loginForm')">
+                登录
+              </button>
             </el-form-item>
           </div>
         </el-form>
@@ -40,11 +47,15 @@
 </template>
 
 <script>
-import {loginRules} from "@/utils/validator";
+import { User, Lock } from '@element-plus/icons-vue'
+import { loginRules } from "@/utils/validator";
 
 export default {
   name: "loginVue",
-
+  components: {
+    User,
+    Lock,
+  },
   data() {
     return {
       loginForm: {
@@ -55,26 +66,22 @@ export default {
     };
   },
   methods: {
-    // 登录事件
     handleLogin(formName) {
       this.$refs[formName].validate((valid) => {
         if (valid) {
           this.$store
-              .dispatch("app/login", this.loginForm)
-              .then(() => {
-                this.$store.dispatch("app/setMenuList");
-                this.$router.replace("/");
-                // setTimeout(() => {
-                //
-                // }, 1200);
-              })
-              .catch(() => {
-                this.$message.error("账号或密码错误");
-              });
+            .dispatch("app/login", this.loginForm)
+            .then(() => {
+              this.$store.dispatch("app/setMenuList");
+              this.$router.replace("/");
+            })
+            .catch(() => {
+              this.$message.error("账号或密码错误");
+            });
         } else {
           this.$notify.error({
-            title: " 错误",
-            message: " 请输入正确的用户名密码",
+            title: "错误",
+            message: "请输入正确的用户名密码",
           });
           return false;
         }
@@ -83,86 +90,87 @@ export default {
   },
 };
 </script>
+
 <style scoped>
 .LoginBackground {
-  background: url("../assets/LoginBackground.jpg") no-repeat;
+  background: url("../assets/loginBackground.png") no-repeat center center;
   background-size: cover;
-  width: 100%;
-  height: 100%;
-  overflow: hidden;
-
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 .LoginForm {
-  background: url("../assets/Login.png") no-repeat;
-  background-size: 800px, 599px;
-  width: 1000px;
-  height: 800px;
-  margin-left: 450px;
-  margin-top: 100px;
-  overflow: hidden;
+  width: 500px;
+  padding: 40px 40px 40px;
+  background-color: rgba(255, 255, 255, 0.92);
+  border-radius: 16px;
+  box-shadow: 0 0 30px rgba(0, 0, 0, 0.15);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
-.UserName {
-  overflow: hidden;
-  border: 2px solid #2abeb2;
-  border-radius: 20px;
-  margin-top: 270px;
-  margin-left: -60px;
-  height: 70px;
-  width: 530px;
+.PlatformLogo {
+  max-width: 450px;     /* 限制最大宽度 */
+  width: 100%;          /* 宽度不会撑开容器 */
+  height: auto;
+  margin: 0 auto 30px;
+  display: block;
 }
 
-.PassWord {
-  overflow: hidden;
-  border: 2px solid #2abeb2;
-  border-radius: 20px;
-  margin-top: 20px;
-  margin-left: -60px;
-  height: 70px;
-  width: 530px;
+
+.InputWrapper {
+  border: 2px solid #3a69d8;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  height: 50px;
+  width: 100%;
+  padding: 0 16px;
+  box-sizing: border-box;
+  margin-bottom: 20px;
+}
+
+.icon {
+  font-size: 24px;
+  color: #3a69d8;
+  margin-right: 10px;
 }
 
 .Input {
-  overflow: hidden;
-  margin-left: 20px;
-  height: 80px;
-  font-size: 35px;
-  color: #2abeb2;
-
+  flex: 1;
+  height: 40px;
+  font-size: 16px;
+  color: #3a69d8;
+  border: none;
+  outline: none;
+  background-color: transparent;
 }
 
-.Logo {
-  overflow: hidden;
-  margin-left: 15px;
-  margin-bottom: 5px;
+.Input::placeholder {
+  color: #3a69d8;
 }
 
 .LoginBtn {
-  overflow: hidden;
-  background: url("../assets/LoginButton.png");
-  background-size: 100%;
-  width: 220px;
-  height: 65px;
-  margin-left: 290px;
-  margin-top: 10px;
+  background: linear-gradient(90deg, #3a8ed8, #4aa7f3); /* 蓝色渐变 */
+  color: white;
+  font-size: 16px;
+  font-weight: bold;
+  border: none;
+  border-radius: 8px;
+  width: 180px;
+  height: 50px;
+  margin: 20px auto 0;
+  display: block;
+  cursor: pointer;
+  transition: background 0.3s ease;
 }
 
-.NameNotNull {
-  margin-left: 200px;
-
-}
-
-.PasswordNotNull {
-  margin-left: 200px;
-}
-
-input::-webkit-input-placeholder {
-  color: #2abeb2;
-}
-
-input::-ms-input-placeholder {
-  color: #2abeb2;
+.LoginBtn:hover {
+  background: linear-gradient(90deg, #2f80ed, #56ccf2); /* 悬浮更亮蓝 */
 }
 
 </style>

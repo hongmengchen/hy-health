@@ -107,40 +107,56 @@ export default {
 
 <style lang="less" scoped>
 .sider-wrapper {
-  width: 200px;
+  width: 220px;
   height: 100%;
-  background-color: #f8fbfd;
-  border-right: 1px solid #dce3e8;
-  box-shadow: 1px 0 4px rgba(0, 0, 0, 0.03);
+  background-color: #c8d9f5; /* 比头部浅蓝稍深 */
+  border-right: 1px solid #9ab3e6; /* 细边框，蓝色调 */
+  box-shadow: inset -2px 0 6px rgba(0, 0, 0, 0.06);
+  user-select: none;
 }
 
 .el-menu {
   height: 100%;
   border-right: none;
   background-color: transparent;
+  color: #1b2a5f; /* 深蓝文字 */
 
   .el-menu-item,
   .el-sub-menu__title {
-    font-size: 14px;
-    padding-left: 20px !important;
-    height: 48px;
-    line-height: 48px;
+    font-size: 15px;
+    padding-left: 28px !important;
+    height: 50px;
+    line-height: 50px;
     display: flex;
     align-items: center;
-    transition: background-color 0.3s ease;
+    transition: background-color 0.25s ease, color 0.25s ease;
+    border-radius: 8px;
   }
 
   .el-menu-item:hover,
   .el-sub-menu__title:hover {
-    background-color: #eaf6ff !important;
+    background-color: #a3bffa !important; /* 亮蓝悬停 */
+    color: #0f1c3d !important; /* 深蓝字体悬停 */
   }
 
   .el-menu-item.is-active {
-    background-color: #d1ebff !important;
-    color: #007acc !important;
-    font-weight: 600;
-    border-right: 3px solid #007acc;
+    background-color: #759de8 !important; /* 活跃条目更深蓝 */
+    color: #0a1145 !important;
+    font-weight: 700;
+    border-right: 5px solid #2550b3;
+    box-shadow: 0 0 12px #2550b3aa;
+  }
+
+  i {
+    margin-right: 14px;
+    font-size: 18px;
+    color: #1b2a5f;
+  }
+
+  .el-sub-menu__title i {
+    color: #1b2a5f;
   }
 }
-
 </style>
+
+

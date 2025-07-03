@@ -38,17 +38,16 @@ export default {
 </script>
 
 <style lang="less" scoped>
-@import "../../../assets/icon/icon.css";
-
 .header-container {
   display: flex;
   align-items: center;
   justify-content: space-between;
   height: 80px;
-  padding: 0 24px;
-  background: linear-gradient(90deg, #eaf6ff, #f5faff);
-  border-bottom: 1px solid #d8e1e8;
-  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.04);
+  padding: 0 32px;
+  background-color: #e6f0fa; /* 浅蓝背景 */
+  box-shadow: 0 1px 6px rgba(30, 60, 120, 0.1);
+  color: #1b2a5f; /* 深蓝文字 */
+  user-select: none;
 }
 
 .HomeLogo {
@@ -57,30 +56,32 @@ export default {
   height: 60px;
   width: 220px;
   cursor: pointer;
-  transition: transform 0.2s;
+  transition: transform 0.3s ease;
 
   &:hover {
-    transform: scale(1.03);
+    transform: scale(1.05);
   }
 }
 
 .main-head {
   display: flex;
   align-items: center;
-  gap: 20px;
+  gap: 28px;
+  font-weight: 600;
 
   .welcome-text {
-    font-size: 15px;
-    color: #444;
-    letter-spacing: 0.3px;
+    font-size: 16px;
+    color: #1b2a5f;
 
     #username {
-      margin-left: 6px;
-      padding: 3px 10px;
-      background-color: #d8ecff;
-      color: #0077cc;
-      border-radius: 10px;
-      font-weight: 600;
+      margin-left: 8px;
+      padding: 4px 14px;
+      background-color: #a3bffa; /* 柔和亮蓝 */
+      color: #0f1c3d; /* 深蓝 */
+      border-radius: 14px;
+      font-weight: 700;
+      box-shadow: 0 0 6px #a3bffaaa;
+      user-select: text;
     }
   }
 
@@ -88,25 +89,26 @@ export default {
     display: flex;
     align-items: center;
     cursor: pointer;
-    padding: 5px 10px;
-    border-radius: 4px;
-    transition: background-color 0.2s ease;
+    padding: 6px 16px;
+    border-radius: 20px;
+    background-color: #3a69d8; /* 亮蓝按钮 */
+    color: #fff;
+    font-size: 14px;
+    font-weight: 600;
+    transition: background-color 0.3s ease, box-shadow 0.3s ease;
 
     &:hover {
-      background-color: #e6f0f8;
+      background-color: #2550b3; /* 深蓝悬停 */
+      box-shadow: 0 0 12px #2550b3cc;
     }
 
     .icon-tuichu {
-      font-size: 18px;
-      color: #666;
-      margin-right: 5px;
-    }
-
-    .logout {
-      font-size: 14px;
-      font-weight: 500;
-      color: #333;
+      font-size: 20px;
+      margin-right: 8px;
     }
   }
 }
 </style>
+
+
+
