@@ -53,8 +53,8 @@ export default {
 .HomeLogo {
   background: url("../../../assets/HomeLogo.png") no-repeat center center;
   background-size: contain;
-  height: 60px;
-  width: 220px;
+  height: 90px;
+  width: 330px;
   cursor: pointer;
   transition: transform 0.3s ease;
 
