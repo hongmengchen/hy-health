@@ -1,16 +1,21 @@
 <template>
   <el-container class="home-container">
-    <!-- 侧边栏 -->
-    <el-header style="height: 100px">
+    <!-- 顶部 header -->
+    <el-header class="layout-header">
       <page-header></page-header>
     </el-header>
+
+    <!-- 主体区域 -->
     <el-container>
-      <el-aside width="auto">
-        <page-sider class="page-sider"></page-sider>
+      <!-- 左侧侧边栏 -->
+      <el-aside width="200px" class="page-sider">
+        <page-sider />
       </el-aside>
+
+      <!-- 右侧主视图 -->
       <el-main class="main-view">
         <transition mode="out-in">
-          <router-view></router-view>
+          <router-view />
         </transition>
       </el-main>
     </el-container>
@@ -23,7 +28,7 @@ import PageHeader from "./components/PageHeader/index.vue";
 
 export default {
   name: "LayoutIndex",
-  components: {PageSider, PageHeader},
+  components: { PageSider, PageHeader },
 };
 </script>
 
@@ -31,30 +36,38 @@ export default {
 .home-container {
   position: fixed;
   left: 0;
-  right: 0;
   top: 0;
+  right: 0;
   bottom: 0;
+  overflow: hidden;
+  background-color: #f9fbfd;
+}
+
+.layout-header {
+  height: 80px;
+  padding: 0;
+  margin: 0;
+  line-height: normal;
 }
 
 .page-sider {
   height: 100%;
-}
-
-.el-header {
-  padding: 0;
-  margin: 0;
-  /*line-height: 100px;*/
+  border-right: 1px solid #e0e0e0;
 }
 
 .main-view {
-  padding: 0;
+  padding: 16px;
+  background-color: #ffffff;
+  overflow-y: auto;
+  height: 100%;
+  box-sizing: border-box;
 }
 
 .v-leave-active {
-  animation: fadeOut .4s linear;
+  animation: fadeOut 0.4s linear;
+}
+.v-enter-active {
+  animation: fadeIn 0.5s linear;
 }
 
-.v-enter-active {
-  animation: fadeIn .5s linear;
-}
 </style>

@@ -1,77 +1,70 @@
 <template>
-  <div>
+  <div class="sider-wrapper">
     <el-menu
-        class="el-menu-vertical-demo"
-        background-color="#2abeb2"
-        text-color="#000000"
-        active-text-color="#ffffff"
-        router
-        :default-active="route.path"
+      class="el-menu-vertical-demo"
+      background-color="#f8fbfd"
+      text-color="#333"
+      active-text-color="#007acc"
+      router
+      :default-active="route.path"
     >
-      <div class="MenuBackground">
-        <template v-for="(item, index) in submenuList" :key="index">
-          <!-- 一级菜单（没有任何子级菜单）-->
-          <el-menu-item :index="item.path" v-if="!item.children">
+      <template v-for="(item, index) in submenuList" :key="index">
+        <!-- 一级菜单（无子菜单）-->
+        <el-menu-item :index="item.path" v-if="!item.children">
+          <i :class="item.icon"></i>
+          <span>{{ item.title }}</span>
+        </el-menu-item>
+
+        <!-- 一级菜单（有子菜单）-->
+        <el-sub-menu :index="item.path" v-else>
+          <template #title>
             <i :class="item.icon"></i>
-            <span>
-            {{ item.title }}
-          </span>
-          </el-menu-item>
-          <!-- 一级菜单（有子级菜单）-->
-          <el-sub-menu :index="item.path" v-else>
-            <template v-slot:title>
-              <i :class="item.icon"></i>
-              <span>{{ item.title }}</span>
-            </template>
-            <!-- 遍历二级菜单容器 -->
-            <template v-for="(i, index) in item.children" :key="index">
-              <!-- 判断二级菜单（没有三级菜单）-->
-              <el-menu-item :index="i.path" v-if="!i.list">
+            <span>{{ item.title }}</span>
+          </template>
+
+          <!-- 二级菜单 -->
+          <template v-for="(i, index) in item.children" :key="index">
+            <el-menu-item :index="i.path" v-if="!i.list">
+              <i :class="i.icon"></i>
+              <span>{{ i.title }}</span>
+            </el-menu-item>
+
+            <!-- 二级菜单下还有三级菜单 -->
+            <el-sub-menu :index="i.path" v-if="i.list">
+              <template #title>
                 <i :class="i.icon"></i>
                 <span>{{ i.title }}</span>
+              </template>
+              <el-menu-item
+                v-for="(j, index) in i.list"
+                :key="index"
+                :index="j.path"
+              >
+                <i :class="j.icon"></i>
+                <span>{{ j.title }}</span>
               </el-menu-item>
-              <!-- 判断二级菜单（有三级菜单）-->
-              <el-sub-menu :index="i.path" v-if="i.list">
-                <template v-slot:title>
-                  <i :class="i.icon"></i>
-                  <span>{{ i.title }}</span>
-                </template>
-                <el-menu-item
-                    :index="j.path"
-                    v-for="(j, index) in i.list"
-                    :key="index"
-                >
-                  <i :class="j.icon"></i>
-                  <span>{{ j.title }}</span>
-                </el-menu-item>
-              </el-sub-menu>
-            </template>
-          </el-sub-menu>
-        </template>
-      </div>
+            </el-sub-menu>
+          </template>
+        </el-sub-menu>
+      </template>
     </el-menu>
   </div>
 </template>
 
 <script>
-import {useRoute} from "vue-router";
+import { useRoute } from "vue-router";
 
 export default {
   name: "PageSider",
-
   data() {
     return {
       submenuList: [],
     };
   },
-
   setup() {
     const route = useRoute();
-    return {
-      route
-    };
+    return { route };
   },
-
   methods: {
     handleMenuListData(data, arr) {
       data.forEach((datas) => {
@@ -84,11 +77,6 @@ export default {
       return arr;
     },
   },
-
-  /*mounted() {
-    let array = this.$store.getters.menuList.slice(2)[0].children;
-    this.submenuList = this.handleMenuListData(array, []);
-  }*/
   mounted() {
     const menuArray = this.$store.getters.menuList.slice(2);
     if (menuArray.length > 0 && menuArray[0].children) {
@@ -98,47 +86,61 @@ export default {
     }
   },
   watch: {
-    '$store.getters.menuList': {
+    "$store.getters.menuList": {
       handler(newVal) {
         const menuArray = newVal.slice(2);
         if (menuArray.length > 0 && menuArray[0].children) {
-          this.submenuList = this.handleMenuListData(menuArray[0].children, []);
+          this.submenuList = this.handleMenuListData(
+            menuArray[0].children,
+            []
+          );
         } else {
           this.submenuList = [];
         }
       },
       immediate: true,
-      deep: true
-    }
-  }
+      deep: true,
+    },
+  },
 };
 </script>
 
 <style lang="less" scoped>
-.el-menu-vertical-demo:not(.el-menu--collapse) {
+.sider-wrapper {
   width: 200px;
-  min-height: 400px;
-}
-
-.medicine_system_title {
-  width: 100%;
-  color: #fff;
-  font-size: 20px;
-  height: 145px;
-  line-height: 145px;
-  text-align: center;
-  background-color: #233646;
-  cursor: default;
+  height: 100%;
+  background-color: #f8fbfd;
+  border-right: 1px solid #dce3e8;
+  box-shadow: 1px 0 4px rgba(0, 0, 0, 0.03);
 }
 
 .el-menu {
   height: 100%;
-  border-right: 0;
+  border-right: none;
+  background-color: transparent;
+
+  .el-menu-item,
+  .el-sub-menu__title {
+    font-size: 14px;
+    padding-left: 20px !important;
+    height: 48px;
+    line-height: 48px;
+    display: flex;
+    align-items: center;
+    transition: background-color 0.3s ease;
+  }
+
+  .el-menu-item:hover,
+  .el-sub-menu__title:hover {
+    background-color: #eaf6ff !important;
+  }
+
+  .el-menu-item.is-active {
+    background-color: #d1ebff !important;
+    color: #007acc !important;
+    font-weight: 600;
+    border-right: 3px solid #007acc;
+  }
 }
 
-.MenuBackground {
-  background: url("../../../assets/MenuBackGround.jpg");
-  background-size: 120%;
-  height: 844px;
-}
 </style>
