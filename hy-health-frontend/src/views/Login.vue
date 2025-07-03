@@ -98,7 +98,7 @@ export default {
   background-size: 800px, 599px;
   width: 1000px;
   height: 800px;
-  margin-left: 555px;
+  margin-left: 450px;
   margin-top: 100px;
   overflow: hidden;
 }
