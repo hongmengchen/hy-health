@@ -45,7 +45,7 @@
                   type="date"
                   size="small"
                   placeholder="选择日期"
-                  value-format="yyyy-MM-dd"
+                  value-format="YYYY-MM-DD"
               />
             </el-form-item>
           </div>
