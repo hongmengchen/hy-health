@@ -91,15 +91,15 @@ export default {
     cursor: pointer;
     padding: 6px 16px;
     border-radius: 20px;
-    background-color: #3a69d8; /* 亮蓝按钮 */
+    background-color: #e74c3c; // 鲜红色
     color: #fff;
     font-size: 14px;
     font-weight: 600;
     transition: background-color 0.3s ease, box-shadow 0.3s ease;
 
     &:hover {
-      background-color: #2550b3; /* 深蓝悬停 */
-      box-shadow: 0 0 12px #2550b3cc;
+      background-color: #c0392b; // 深红悬停
+      box-shadow: 0 0 12px #c0392bcc;
     }
 
     .icon-tuichu {

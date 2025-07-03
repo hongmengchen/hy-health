@@ -119,44 +119,52 @@ export default {
   height: 100%;
   border-right: none;
   background-color: transparent;
-  color: #1b2a5f; /* 深蓝文字 */
+  color: #1b2a5f;
 
   .el-menu-item,
   .el-sub-menu__title {
     font-size: 15px;
-    padding-left: 28px !important;
+    padding-left: 12px !important; /* 减小左边内边距，使标题更靠左 */
     height: 50px;
     line-height: 50px;
     display: flex;
-    align-items: center;
+    align-items: center; /* 垂直居中 */
     transition: background-color 0.25s ease, color 0.25s ease;
     border-radius: 8px;
   }
 
-  .el-menu-item:hover,
-  .el-sub-menu__title:hover {
-    background-color: #a3bffa !important; /* 亮蓝悬停 */
-    color: #0f1c3d !important; /* 深蓝字体悬停 */
-  }
-
-  .el-menu-item.is-active {
-    background-color: #759de8 !important; /* 活跃条目更深蓝 */
-    color: #0a1145 !important;
-    font-weight: 700;
-    border-right: 5px solid #2550b3;
-    box-shadow: 0 0 12px #2550b3aa;
+  .el-menu-item span,
+  .el-sub-menu__title span {
+    flex: 1;
+    text-align: left; /* 文字左对齐 */
   }
 
   i {
     margin-right: 14px;
     font-size: 18px;
     color: #1b2a5f;
+    flex-shrink: 0; /* 防止图标缩小 */
   }
 
   .el-sub-menu__title i {
     color: #1b2a5f;
   }
+
+  .el-menu-item:hover,
+  .el-sub-menu__title:hover {
+    background-color: #a3bffa !important;
+    color: #0f1c3d !important;
+  }
+
+  .el-menu-item.is-active {
+    background-color: #759de8 !important;
+    color: #0a1145 !important;
+    font-weight: 700;
+    border-right: 5px solid #2550b3;
+    box-shadow: 0 0 12px #2550b3aa;
+  }
 }
+
 </style>
 
 
