@@ -226,8 +226,8 @@ export default {
       },
     },
     hasRole() {
-      // 示例逻辑，视项目权限控制决定是否显示操作按钮
-      return true;
+      const userInfo = JSON.parse(localStorage.getItem("userInfo"));
+      return userInfo && userInfo.utype === "1"; // "1" 是管理员
     },
   },
 };

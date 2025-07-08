@@ -325,6 +325,10 @@ export default {
         this.keywordDefault = val;
       },
     },
+    hasRole() {
+      const userInfo = JSON.parse(localStorage.getItem("userInfo"));
+      return userInfo && userInfo.utype === "1"; // "1" 是管理员
+    },
   },
 };
 </script>

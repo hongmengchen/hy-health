@@ -6,7 +6,7 @@ axios.default.withCredentials = true;
 // 创建 axios 实例
 let service = axios.create({
 
-    baseURL: "http://localhost:8080/api", //远程服务器地址
+    baseURL: process.env.VUE_APP_BASE_API || 'http://localhost:8080/api', //远程服务器地址
     timeout: 5000, // 请求超时时间
 });
 // request 拦截器
