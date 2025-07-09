@@ -1,152 +1,251 @@
 <template>
   <div>
     <!-- AI 小助手按钮 -->
-    <div class="ai-float-btn" @click="toggleChat" title="AI 小助手">
-      <el-icon><ChatDotRound /></el-icon>
+    <div
+        class="ai-float-btn"
+        @mousedown="startDrag"
+        :style="{ top: btnPosition.top + 'px', left: btnPosition.left + 'px' }"
+        title="AI 小助手"
+    >
+      <el-icon @click.stop="toggleChat">
+        <ChatDotRound/>
+      </el-icon>
     </div>
-
-    <!-- AI 小助手聊天框固定悬浮 -->
-    <div class="ai-chat-box" v-show="aiDialogVisible" ref="chatWindow">
-      <div class="chat-header">
-        AI 小助手
-        <button class="close-btn" @click="aiDialogVisible = false">×</button>
-      </div>
-      <div class="chat-window">
-        <div
-          v-for="(msg, index) in chatMessages"
-          :key="index"
-          class="chat-msg"
-          :class="msg.role"
-        >
-          <span>{{ msg.role === 'user' ? '你：' : '助手：' }}</span>{{ msg.content }}
+    <transition name="fade-slide">
+      <!-- AI 小助手聊天框 -->
+      <div
+          class="ai-chat-box"
+          v-show="aiDialogVisible"
+          ref="chatWindow"
+          :style="chatBoxStyle"
+      >
+        <div class="chat-header">
+          AI 小助手
+          <button class="close-btn" @click="aiDialogVisible = false">×</button>
+        </div>
+        <div class="chat-window">
+          <div
+              v-for="(msg, index) in chatMessages"
+              :key="index"
+              class="chat-msg"
+              :class="msg.role"
+          >
+            <span>{{ msg.role === 'user' ? '你：' : '助手：' }}</span>{{ msg.content }}
+          </div>
+        </div>
+        <div class="chat-input-wrapper">
+          <el-input
+              v-model="chatInput"
+              placeholder="请输入问题..."
+              @keyup.enter="sendMessage"
+              clearable
+          />
+          <el-button type="primary" @click="sendMessage" :loading="loading">发送</el-button>
         </div>
       </div>
-      <div class="chat-input-wrapper">
-        <el-input
-          v-model="chatInput"
-          placeholder="请输入问题..."
-          @keyup.enter="sendMessage"
-          clearable
-        />
-        <el-button type="primary" @click="sendMessage" :loading="loading">发送</el-button>
-      </div>
-    </div>
+    </transition>
   </div>
 </template>
 
 <script>
-import { ChatDotRound } from '@element-plus/icons-vue';
-import axios from 'axios';
+import {ChatDotRound} from '@element-plus/icons-vue'
+import axios from 'axios'
 
 export default {
-  name: "AiAssistant",
-  components: { ChatDotRound },
+  name: 'AiAssistant',
+  components: {ChatDotRound},
   data() {
     return {
       aiDialogVisible: false,
       chatMessages: [],
       chatInput: '',
-      loading: false,   // 发送中状态
-    };
+      loading: false,
+
+      btnPosition: {
+        top: 0,
+        left: 0
+      },
+      dragging: false,
+      dragOffset: {x: 0, y: 0}
+    }
+  },
+  computed: {
+    chatBoxStyle() {
+      const chatBoxWidth = 400
+      const margin = 10
+      let left
+
+      if (this.btnPosition.left + chatBoxWidth + margin > window.innerWidth) {
+        left = this.btnPosition.left - chatBoxWidth - margin
+        if (left < 0) left = 0
+      } else {
+        left = this.btnPosition.left + 70
+      }
+
+      let top = this.btnPosition.top
+      const maxTop = window.innerHeight - 520
+      if (top > maxTop) top = maxTop
+      if (top < 10) top = 10
+
+      return {
+        left: left + 'px',
+        top: top + 'px'
+      }
+    }
+  },
+  mounted() {
+    // 初始化位置
+    const saved = localStorage.getItem('ai-btn-position')
+    if (saved) {
+      const pos = JSON.parse(saved)
+      this.btnPosition.top = pos.top
+      this.btnPosition.left = pos.left
+    } else {
+      this.btnPosition.top = window.innerHeight - 100
+      this.btnPosition.left = window.innerWidth - 100
+    }
   },
   methods: {
     toggleChat() {
-      this.aiDialogVisible = !this.aiDialogVisible;
-      if (this.aiDialogVisible) {
-        this.$nextTick(() => {
-          const el = this.$refs.chatWindow;
-          if (el) el.scrollTop = el.scrollHeight;
-        });
+      this.aiDialogVisible = !this.aiDialogVisible
+      this.$nextTick(() => {
+        const el = this.$refs.chatWindow
+        if (el) el.scrollTop = el.scrollHeight
+      })
+    },
+
+    startDrag(e) {
+      this.dragging = true
+      this.dragOffset = {
+        x: e.clientX - this.btnPosition.left,
+        y: e.clientY - this.btnPosition.top
       }
+      document.addEventListener('mousemove', this.onDrag)
+      document.addEventListener('mouseup', this.stopDrag)
+    },
+
+    onDrag(e) {
+      if (!this.dragging) return
+
+      let newLeft = e.clientX - this.dragOffset.x
+      let newTop = e.clientY - this.dragOffset.y
+
+      // 限制范围
+      const maxLeft = window.innerWidth - 60
+      const maxTop = window.innerHeight - 60
+
+      if (newLeft < 0) newLeft = 0
+      if (newTop < 0) newTop = 0
+      if (newLeft > maxLeft) newLeft = maxLeft
+      if (newTop > maxTop) newTop = maxTop
+
+      // 吸附边缘（40px以内贴边）
+      if (newLeft < 40) newLeft = 0
+      if (newLeft > window.innerWidth - 100) newLeft = window.innerWidth - 60
+
+      this.btnPosition.left = newLeft
+      this.btnPosition.top = newTop
+    },
+
+    stopDrag() {
+      this.dragging = false
+      document.removeEventListener('mousemove', this.onDrag)
+      document.removeEventListener('mouseup', this.stopDrag)
+
+      // 存储按钮位置
+      localStorage.setItem(
+          'ai-btn-position',
+          JSON.stringify({
+            top: this.btnPosition.top,
+            left: this.btnPosition.left
+          })
+      )
     },
 
     async sendMessage() {
-      const content = this.chatInput.trim();
-      if (!content) return;
+      const content = this.chatInput.trim()
+      if (!content) return
 
-      // 用户消息加入聊天
-      this.chatMessages.push({ role: 'user', content });
-      this.chatInput = '';
-      this.loading = true;
+      this.chatMessages.push({role: 'user', content})
+      this.chatInput = ''
+      this.loading = true
 
       this.$nextTick(() => {
-        const el = this.$refs.chatWindow;
-        if (el) el.scrollTop = el.scrollHeight;
-      });
+        const el = this.$refs.chatWindow
+        if (el) el.scrollTop = el.scrollHeight
+      })
 
       try {
-        // 调用 AI API，替换为你自己的接口地址和参数
         const response = await axios.post(
             'https://api.moonshot.cn/v1/chat/completions',
             {
-              model: "moonshot-v1-8k",  // 或者其他模型
+              model: 'moonshot-v1-8k',
               messages: [
-                {role: "system", content: "你是一个有帮助的AI助手。"},
+                {role: 'system', content: '你是一个有帮助的AI助手。'},
                 ...this.chatMessages.map(msg => ({
                   role: msg.role === 'user' ? 'user' : 'assistant',
                   content: msg.content
                 })),
-                {role: "user", content: content}
+                {role: 'user', content}
               ],
               max_tokens: 500,
-              temperature: 0.7,
+              temperature: 0.7
             },
             {
               headers: {
                 'Content-Type': 'application/json',
-                'Authorization': `Bearer XXXX`, // 替换成你的API Key
+                Authorization: `Bearer XXX`
               }
             }
-        );
+        )
 
-        // 取第一个回答
-        const aiReply = response.data.choices[0].message.content.trim();
-        this.chatMessages.push({ role: 'ai', content: aiReply });
-
+        const aiReply = response.data.choices[0].message.content.trim()
+        this.chatMessages.push({role: 'ai', content: aiReply})
       } catch (error) {
-        console.error("AI 请求失败:", error);
-        this.chatMessages.push({ role: 'ai', content: '抱歉，AI 服务暂时不可用，请稍后重试。' });
+        console.error('AI 请求失败:', error)
+        this.chatMessages.push({
+          role: 'ai',
+          content: '抱歉，AI 服务暂时不可用，请稍后重试。'
+        })
       } finally {
-        this.loading = false;
+        this.loading = false
         this.$nextTick(() => {
-          const el = this.$refs.chatWindow;
-          if (el) el.scrollTop = el.scrollHeight;
-        });
+          const el = this.$refs.chatWindow
+          if (el) el.scrollTop = el.scrollHeight
+        })
       }
-    },
-  },
-};
+    }
+  }
+}
 </script>
-
 
 <style scoped>
 .ai-float-btn {
   position: fixed;
-  right: 40px;
-  bottom: 40px;
   width: 56px;
   height: 56px;
-  background-color: #409EFF;
+  background-color: #409eff;
   color: white;
   border-radius: 50%;
   box-shadow: 0 4px 14px rgba(0, 0, 0, 0.2);
   display: flex;
   justify-content: center;
   align-items: center;
-  cursor: pointer;
+  cursor: move;
   z-index: 9999;
   transition: background-color 0.3s;
 }
+
 .ai-float-btn:hover {
   background-color: #337ecc;
 }
+
 .ai-float-btn .el-icon {
   font-size: 28px;
 }
+
 .ai-chat-box {
   position: fixed;
-  right: 110px;
-  bottom: 40px;
   width: 400px;
   max-height: 500px;
   background: white;
@@ -157,6 +256,7 @@ export default {
   z-index: 10000;
   font-size: 14px;
 }
+
 .chat-header {
   background: #409eff;
   color: white;
@@ -167,6 +267,7 @@ export default {
   justify-content: space-between;
   align-items: center;
 }
+
 .close-btn {
   background: transparent;
   border: none;
@@ -176,28 +277,51 @@ export default {
   line-height: 1;
   padding: 0;
 }
+
 .chat-window {
   flex-grow: 1;
   overflow-y: auto;
   padding: 10px;
   background-color: #f5f7fa;
 }
+
 .chat-msg {
   margin-bottom: 8px;
   word-break: break-word;
 }
+
 .chat-msg.user {
   text-align: right;
   color: #333;
 }
+
 .chat-msg.ai {
   text-align: left;
   color: #409eff;
 }
+
 .chat-input-wrapper {
   display: flex;
   gap: 8px;
   padding: 10px;
   border-top: 1px solid #eee;
 }
+
+.fade-slide-enter-active,
+.fade-slide-leave-active {
+  transition: opacity 0.3s ease, transform 0.3s ease;
+}
+
+.fade-slide-enter-from,
+.fade-slide-leave-to {
+  opacity: 0;
+  transform: translateY(20px);
+}
+
+.fade-slide-enter-to,
+.fade-slide-leave-from {
+  opacity: 1;
+  transform: translateY(0);
+}
+
 </style>
