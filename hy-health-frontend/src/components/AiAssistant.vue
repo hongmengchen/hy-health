@@ -28,7 +28,7 @@
           @keyup.enter="sendMessage"
           clearable
         />
-        <el-button type="primary" @click="sendMessage">发送</el-button>
+        <el-button type="primary" @click="sendMessage" :loading="loading">发送</el-button>
       </div>
     </div>
   </div>
@@ -36,6 +36,7 @@
 
 <script>
 import { ChatDotRound } from '@element-plus/icons-vue';
+import axios from 'axios';
 
 export default {
   name: "AiAssistant",
@@ -45,6 +46,7 @@ export default {
       aiDialogVisible: false,
       chatMessages: [],
       chatInput: '',
+      loading: false,   // 发送中状态
     };
   },
   methods: {
@@ -57,40 +59,67 @@ export default {
         });
       }
     },
-    getAutoReply() {
-      const replies = [
-        '你好，我是 AI 小助手，请问有什么可以帮你？',
-        '请稍等，我正在处理您的请求...',
-        '如果有数据问题，可以点击左侧菜单查看详情。',
-        '我还在学习中，建议您联系管理员。',
-      ];
-      return replies[Math.floor(Math.random() * replies.length)];
-    },
-    sendMessage() {
+
+    async sendMessage() {
       const content = this.chatInput.trim();
       if (!content) return;
 
+      // 用户消息加入聊天
       this.chatMessages.push({ role: 'user', content });
       this.chatInput = '';
+      this.loading = true;
 
-      setTimeout(() => {
-        const reply = this.getAutoReply();
-        this.chatMessages.push({ role: 'ai', content: reply });
+      this.$nextTick(() => {
+        const el = this.$refs.chatWindow;
+        if (el) el.scrollTop = el.scrollHeight;
+      });
 
+      try {
+        // 调用 AI API，替换为你自己的接口地址和参数
+        const response = await axios.post(
+            'https://api.moonshot.cn/v1/chat/completions',
+            {
+              model: "moonshot-v1-8k",  // 或者其他模型
+              messages: [
+                {role: "system", content: "你是一个有帮助的AI助手。"},
+                ...this.chatMessages.map(msg => ({
+                  role: msg.role === 'user' ? 'user' : 'assistant',
+                  content: msg.content
+                })),
+                {role: "user", content: content}
+              ],
+              max_tokens: 500,
+              temperature: 0.7,
+            },
+            {
+              headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer XXXX`, // 替换成你的API Key
+              }
+            }
+        );
+
+        // 取第一个回答
+        const aiReply = response.data.choices[0].message.content.trim();
+        this.chatMessages.push({ role: 'ai', content: aiReply });
+
+      } catch (error) {
+        console.error("AI 请求失败:", error);
+        this.chatMessages.push({ role: 'ai', content: '抱歉，AI 服务暂时不可用，请稍后重试。' });
+      } finally {
+        this.loading = false;
         this.$nextTick(() => {
           const el = this.$refs.chatWindow;
-          if (el) {
-            el.scrollTop = el.scrollHeight;
-          }
+          if (el) el.scrollTop = el.scrollHeight;
         });
-      }, 500);
+      }
     },
   },
 };
 </script>
 
+
 <style scoped>
-/* 你的AI助手样式复制过来 */
 .ai-float-btn {
   position: fixed;
   right: 40px;
