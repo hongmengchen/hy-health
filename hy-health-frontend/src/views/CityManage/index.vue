@@ -11,7 +11,7 @@
     <el-main>
       <div class="main-title">
         <h3>城市列表</h3>
-        <button class="new-add" @click="addFormVisible = true" v-if="hasRole" />
+        <button class="new-add" @click="addFormVisible = true" v-if="hasRole"/>
       </div>
 
       <el-row :gutter="20">
@@ -32,9 +32,9 @@
           :data="tableData.list"
           highlight-current-row
       >
-        <el-table-column prop="cityNumber" label="城市编号" sortable />
-        <el-table-column prop="province" label="所属省" />
-        <el-table-column prop="city" label="城市名称" />
+        <el-table-column prop="cityNumber" label="城市编号" sortable/>
+        <el-table-column prop="province" label="所属省"/>
+        <el-table-column prop="city" label="城市名称"/>
         <el-table-column prop="cityOperation" label="操作" v-if="hasRole">
           <template #default="scope">
             <button
@@ -54,6 +54,7 @@
             @current-change="handleCurrentChange"
         />
       </div>
+
     </el-main>
 
     <el-dialog
@@ -86,9 +87,9 @@
 </template>
 
 <script>
-import { mapGetters } from "vuex";
+import {mapGetters} from "vuex";
 import rules from "../../utils/validator";
-import { provinceAndCityData } from "element-china-area-data";
+import {provinceAndCityData} from "element-china-area-data";
 
 export default {
   name: "CityManage",

@@ -11,6 +11,7 @@ import _ from 'lodash'  // 引入 lodash
 import './style/reset.css'  // 引入样式
 import 'animate.css'  // 引入动画库
 import ElementPlus from 'element-plus'  // 引入 Element Plus
+import zhCn from 'element-plus/es/locale/lang/zh-cn'  // 引入中文语言包
 import "element-plus/dist/index.css";
 
 // 创建 Vue 应用实例
@@ -38,7 +39,9 @@ app.mixin({
 });
 
 // 使用插件
-app.use(ElementPlus)
+app.use(ElementPlus, {
+    locale: zhCn
+})
 app.use(router)
 app.use(store)
 
