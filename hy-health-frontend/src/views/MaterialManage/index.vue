@@ -55,13 +55,13 @@
         <el-table-column prop="message" label="材料内容" min-width="400"/>
         <el-table-column label="操作" v-if="hasRole">
           <template v-slot="scope">
-            <el-tooltip content="删除" placement="top">
+            <el-tooltip content="删除必备材料" placement="top">
               <button
                   class="table-btn-delete"
                   @click="handleDeleteMaterial(scope.row.id, scope.row.title)"
               />
             </el-tooltip>
-            <el-tooltip content="修改" placement="top">
+            <el-tooltip content="修改必备材料信息" placement="top">
               <button
                   class="table-btn-update"
                   @click="handleModifyFormVisible(scope.row.id, scope.row.message, scope.row.title)"

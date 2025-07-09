@@ -44,7 +44,7 @@
               <button class="table-btn-delete"
                       @click="handleDeleteCompany(scope.row.companyId, scope.row.companyName)"/>
             </el-tooltip>
-            <el-tooltip content="编辑公司" placement="top">
+            <el-tooltip content="编辑公司信息" placement="top">
               <button class="table-btn-update"
                       @click="handleModifyFormVisible(scope.row.companyId, scope.row.companyName, scope.row.companyPhone)"/>
             </el-tooltip>
@@ -101,6 +101,7 @@
         </div>
       </template>
     </el-dialog>
+
     <!-- 放置AI助手组件 -->
     <AiAssistant/>
   </el-container>

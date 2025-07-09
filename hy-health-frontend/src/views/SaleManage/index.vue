@@ -39,10 +39,10 @@
         <el-table-column prop="salePhone" label="药店电话"/>
         <el-table-column label="操作" v-if="hasRole">
           <template #default="scope">
-            <el-tooltip content="删除" placement="top">
+            <el-tooltip content="删除销售地点" placement="top">
               <button class="table-btn-delete" @click="handleDeleteSalePlace(scope.row.saleId, scope.row.saleName)"/>
             </el-tooltip>
-            <el-tooltip content="修改" placement="top">
+            <el-tooltip content="修改销售地点信息" placement="top">
               <button class="table-btn-update"
                       @click="handleModifyFormVisible(scope.row.saleId, scope.row.saleName, scope.row.salePhone)"/>
             </el-tooltip>

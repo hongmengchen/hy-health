@@ -58,7 +58,7 @@
                   @click="handleDeleteCompanyPolicy(scope.row.id, scope.row.title)"
               />
             </el-tooltip>
-            <el-tooltip content="编辑政策" placement="top">
+            <el-tooltip content="编辑政策信息" placement="top">
               <button
                   class="table-btn-update"
                   @click="handleModifyFormVisible(

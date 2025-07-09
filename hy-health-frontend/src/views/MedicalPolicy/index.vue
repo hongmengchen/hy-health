@@ -106,13 +106,13 @@
           <el-table-column prop="updateTime" label="发布时间" sortable/>
           <el-table-column v-if="hasRole" label="操作">
             <template #default="scope">
-              <el-tooltip content="删除" placement="top">
+              <el-tooltip content="删除医保政策" placement="top">
                 <button
                     class="table-btn-delete"
                     @click="handleDeleteMedicalPolicy(scope.row.id, scope.row.title)"
                 />
               </el-tooltip>
-              <el-tooltip content="修改" placement="top">
+              <el-tooltip content="修改医保政策信息" placement="top">
                 <button
                     class="table-btn-update"
                     @click="handleModifyFormVisible(
@@ -195,6 +195,7 @@
         </div>
       </template>
     </el-dialog>
+
     <!-- 放置AI助手组件 -->
     <AiAssistant/>
   </el-container>

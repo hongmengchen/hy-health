@@ -45,7 +45,7 @@
                   @click="handleDeleteDoctor(scope.row.id, scope.row.name)"
               />
             </el-tooltip>
-            <el-tooltip content="编辑医生" placement="top">
+            <el-tooltip content="编辑医生信息" placement="top">
               <button
                   class="table-btn-update"
                   @click="openModify(scope.row)"
