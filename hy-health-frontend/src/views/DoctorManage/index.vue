@@ -3,7 +3,7 @@
     <el-header height="76px">
       <h2>医生信息管理</h2>
       <el-breadcrumb separator="/">
-        <el-breadcrumb-item :to="{ path: '/' }">首页</el-breadcrumb-item>
+        <el-breadcrumb-item to="/">首页</el-breadcrumb-item>
         <el-breadcrumb-item>医生信息管理</el-breadcrumb-item>
       </el-breadcrumb>
     </el-header>

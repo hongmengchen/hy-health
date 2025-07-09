@@ -8,7 +8,7 @@
 
       <!-- 面包屑导航区域 -->
       <el-breadcrumb separator="/">
-        <el-breadcrumb-item :to="{ path: '/' }">首页</el-breadcrumb-item>
+        <el-breadcrumb-item to="/">首页</el-breadcrumb-item>
         <el-breadcrumb-item v-if="hasRole">必备材料管理</el-breadcrumb-item>
         <el-breadcrumb-item v-else>必备材料查询</el-breadcrumb-item>
       </el-breadcrumb>

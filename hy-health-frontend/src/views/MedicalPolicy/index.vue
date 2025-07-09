@@ -5,7 +5,7 @@
       <h2 v-if="hasRole">医保政策管理</h2>
       <h2 v-else>医保政策查询</h2>
       <el-breadcrumb separator="/">
-        <el-breadcrumb-item :to="{ path: '/' }">首页</el-breadcrumb-item>
+        <el-breadcrumb-item to="/">首页</el-breadcrumb-item>
         <el-breadcrumb-item v-if="hasRole">医保政策管理</el-breadcrumb-item>
         <el-breadcrumb-item v-else>医保政策查询</el-breadcrumb-item>
       </el-breadcrumb>
