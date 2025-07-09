@@ -243,15 +243,19 @@
         </div>
       </template>
     </el-dialog>
+    <!-- 放置AI助手组件 -->
+    <AiAssistant />
   </el-container>
 </template>
 
 <script>
 import { mapGetters } from "vuex";
 import rules from "../../utils/validator";
+import AiAssistant from "@/components/AiAssistant.vue";
 
 export default {
   name: "DrugManage",
+  components: {AiAssistant},
   data() {
     return {
       currentPage: 1,

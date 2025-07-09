@@ -134,6 +134,8 @@
         </div>
       </template>
     </el-dialog>
+    <!-- 放置AI助手组件 -->
+    <AiAssistant />
   </el-container>
 </template>
 
@@ -141,9 +143,11 @@
 import { mapGetters } from "vuex";
 import rules from "../../utils/validator";
 import dayjs from "dayjs";
+import AiAssistant from "@/components/AiAssistant.vue";
 
 export default {
   name: "CompanyPolicyManage",
+  components: {AiAssistant},
   data() {
     return {
       currentPage: 1,

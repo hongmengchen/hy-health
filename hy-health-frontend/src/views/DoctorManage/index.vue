@@ -167,6 +167,8 @@
         </div>
       </template>
     </el-dialog>
+    <!-- 放置AI助手组件 -->
+    <AiAssistant />
   </el-container>
 </template>
 
@@ -174,9 +176,11 @@
 import { mapGetters } from "vuex";
 import { doctorRules, validatePass } from "@/utils/validator";
 import { resetPassword } from "@/api/admin/doctorInfoManage";
+import AiAssistant from "@/components/AiAssistant.vue";
 
 export default {
   name: "DoctorManage",
+  components: {AiAssistant},
   data() {
     const validatePwd = (rule, value, callback) => {
       if (!validatePass(value)) callback(new Error("密码格式不正确"));

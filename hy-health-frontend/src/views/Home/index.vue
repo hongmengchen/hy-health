@@ -182,6 +182,8 @@
         </el-dialog>
       </div>
     </el-main>
+    <!-- 放置AI助手组件 -->
+    <AiAssistant />
   </el-container>
 </template>
 
@@ -192,9 +194,11 @@ import * as echarts from "echarts";
 import AMapLoader from "@amap/amap-jsapi-loader";
 import axios from "axios";
 import {getAllDashboardInfo} from "@/api/admin/dashboardApi";
+import AiAssistant from "@/components/AiAssistant.vue";
 
 export default {
   name: "HomePage",
+  components: {AiAssistant},
   data() {
     return {
       // 切换控制
