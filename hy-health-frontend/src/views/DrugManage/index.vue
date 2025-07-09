@@ -13,7 +13,9 @@
     <el-main>
       <div class="main-title">
         <h3>药品信息列表</h3>
-        <button class="new-add" @click="addFormVisible = true" v-if="hasRole" />
+        <el-tooltip content="新增药品" placement="top">
+          <button class="new-add" @click="addFormVisible = true" v-if="hasRole"/>
+        </el-tooltip>
       </div>
 
       <el-row :gutter="20">
@@ -69,21 +71,25 @@
         <el-table-column prop="drugPublisher" label="发布者" sortable/>
         <el-table-column label="操作" v-if="hasRole">
           <template #default="scope">
-            <button
-                class="table-btn-delete"
-                @click="handleDeleteDrug(scope.row.drugId, scope.row.drugName)"
-            />
-            <button
-                class="table-btn-update"
-                @click="handleModifyFormVisible(
-                scope.row.drugId,
-                scope.row.drugName,
-                scope.row.drugInfo,
-                scope.row.drugEffect,
-                scope.row.drugImg,
-                scope.row.drugSales
-              )"
-            />
+            <el-tooltip content="删除药品" placement="top">
+              <button
+                  class="table-btn-delete"
+                  @click="handleDeleteDrug(scope.row.drugId, scope.row.drugName)"
+              />
+            </el-tooltip>
+            <el-tooltip content="修改药品信息" placement="top">
+              <button
+                  class="table-btn-update"
+                  @click="handleModifyFormVisible(
+              scope.row.drugId,
+              scope.row.drugName,
+              scope.row.drugInfo,
+              scope.row.drugEffect,
+              scope.row.drugImg,
+              scope.row.drugSales
+          )"
+              />
+            </el-tooltip>
           </template>
         </el-table-column>
       </el-table>
@@ -244,12 +250,12 @@
       </template>
     </el-dialog>
     <!-- 放置AI助手组件 -->
-    <AiAssistant />
+    <AiAssistant/>
   </el-container>
 </template>
 
 <script>
-import { mapGetters } from "vuex";
+import {mapGetters} from "vuex";
 import rules from "../../utils/validator";
 import AiAssistant from "@/components/AiAssistant.vue";
 
@@ -448,18 +454,51 @@ export default {
 @import "../../style/infoManage.less";
 
 .drugimg-uploader {
-  width: 178px; height: 178px;
+  width: 178px;
+  height: 178px;
   border: 1px dashed #d9d9d9;
-  border-radius: 6px; cursor: pointer;
-  position: relative; overflow: hidden;
+  border-radius: 6px;
+  cursor: pointer;
+  position: relative;
+  overflow: hidden;
 }
+
 .drugimg-uploader-icon {
-  font-size: 28px; color: #8c939d;
-  width: 178px; height: 178px; line-height: 178px;
+  font-size: 28px;
+  color: #8c939d;
+  width: 178px;
+  height: 178px;
+  line-height: 178px;
   text-align: center;
 }
+
 .drugimg {
-  width: 100%; height: 100%;
+  width: 100%;
+  height: 100%;
   display: block;
+}
+
+.new-add,
+.table-btn-delete,
+.table-btn-update {
+  width: 36px;
+  height: 36px;
+  border: none;
+  border-radius: 6px;
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: 70%;
+  cursor: pointer;
+  margin-right: 6px;
+  transition: all 0.3s ease;
+
+  &:hover {
+    transform: translateY(-3px) scale(1.05);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  }
+
+  &:active {
+    transform: scale(0.95);
+  }
 }
 </style>

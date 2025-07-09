@@ -11,7 +11,10 @@
     <el-main>
       <div class="main-title">
         <h3>医药公司信息列表</h3>
-        <button class="new-add" @click="addFormVisible = true" v-if="hasRole" />
+        <!-- 新增按钮 -->
+        <el-tooltip content="新增公司" placement="top">
+          <button class="new-add" @click="addFormVisible = true" v-if="hasRole"/>
+        </el-tooltip>
       </div>
 
       <el-row :gutter="20">
@@ -32,13 +35,19 @@
           :data="tableData.list"
           highlight-current-row
       >
-        <el-table-column prop="companyId" label="医药公司编号" sortable />
-        <el-table-column prop="companyName" label="公司名称" />
-        <el-table-column prop="companyPhone" label="公司电话" />
+        <el-table-column prop="companyId" label="医药公司编号" sortable/>
+        <el-table-column prop="companyName" label="公司名称"/>
+        <el-table-column prop="companyPhone" label="公司电话"/>
         <el-table-column prop="companyOperation" label="操作" v-if="hasRole">
           <template #default="scope">
-            <button class="table-btn-delete" @click="handleDeleteCompany(scope.row.companyId, scope.row.companyName)" />
-            <button class="table-btn-update" @click="handleModifyFormVisible(scope.row.companyId, scope.row.companyName, scope.row.companyPhone)" />
+            <el-tooltip content="删除公司" placement="top">
+              <button class="table-btn-delete"
+                      @click="handleDeleteCompany(scope.row.companyId, scope.row.companyName)"/>
+            </el-tooltip>
+            <el-tooltip content="编辑公司" placement="top">
+              <button class="table-btn-update"
+                      @click="handleModifyFormVisible(scope.row.companyId, scope.row.companyName, scope.row.companyPhone)"/>
+            </el-tooltip>
           </template>
         </el-table-column>
       </el-table>
@@ -58,10 +67,10 @@
     <el-dialog title="新增医药公司" v-model="addFormVisible" @closed="handleAddClose">
       <el-form :model="addForm" ref="addForm" label-width="110px" hide-required-asterisk>
         <el-form-item label="公司名称" prop="companyName" :rules="rules.nameRules">
-          <el-input v-model.trim="addForm.companyName" autocomplete="off" required />
+          <el-input v-model.trim="addForm.companyName" autocomplete="off" required/>
         </el-form-item>
         <el-form-item label="公司电话" prop="companyPhone" :rules="rules.phoneRules">
-          <el-input v-model.number="addForm.companyPhone" autocomplete="off" required />
+          <el-input v-model.number="addForm.companyPhone" autocomplete="off" required/>
         </el-form-item>
       </el-form>
       <template #footer>
@@ -76,13 +85,13 @@
     <el-dialog title="修改医药公司信息" v-model="modifyFormVisible" @closed="handleModifyClose">
       <el-form :model="modifyForm" ref="modifyForm" label-width="110px" hide-required-asterisk>
         <el-form-item label="医药公司编号">
-          <el-input v-model="modifyForm.companyId" autocomplete="off" disabled />
+          <el-input v-model="modifyForm.companyId" autocomplete="off" disabled/>
         </el-form-item>
         <el-form-item label="公司名称" prop="companyName" :rules="rules.nameRules">
-          <el-input v-model.trim="modifyForm.companyName" autocomplete="off" required />
+          <el-input v-model.trim="modifyForm.companyName" autocomplete="off" required/>
         </el-form-item>
         <el-form-item label="公司电话" prop="companyPhone" :rules="rules.phoneRules">
-          <el-input v-model.number="modifyForm.companyPhone" autocomplete="off" required />
+          <el-input v-model.number="modifyForm.companyPhone" autocomplete="off" required/>
         </el-form-item>
       </el-form>
       <template #footer>
@@ -93,12 +102,12 @@
       </template>
     </el-dialog>
     <!-- 放置AI助手组件 -->
-    <AiAssistant />
+    <AiAssistant/>
   </el-container>
 </template>
 
 <script>
-import { mapGetters } from "vuex";
+import {mapGetters} from "vuex";
 import rules from "../../utils/validator";
 import AiAssistant from "@/components/AiAssistant.vue";
 
@@ -153,7 +162,7 @@ export default {
             this.getCompanyInfo(1);
           });
         } else {
-          this.$message({ message: "请检查输入的内容是否合规", type: "warning" });
+          this.$message({message: "请检查输入的内容是否合规", type: "warning"});
         }
       });
     },
@@ -172,11 +181,11 @@ export default {
           this.getCompanyInfo();
         });
       }).catch(() => {
-        this.$message({ type: "info", message: "已取消删除" });
+        this.$message({type: "info", message: "已取消删除"});
       });
     },
     handleModifyFormVisible(companyId, companyName, companyPhone) {
-      this.modifyForm = { companyId, companyName, companyPhone };
+      this.modifyForm = {companyId, companyName, companyPhone};
       this.modifyFormVisible = true;
     },
     handleModifyCompany(formName) {
@@ -194,7 +203,7 @@ export default {
             this.getCompanyInfo();
           });
         } else {
-          this.$message({ message: "请检查输入的内容是否合规", type: "warning" });
+          this.$message({message: "请检查输入的内容是否合规", type: "warning"});
         }
       });
     },
@@ -231,4 +240,28 @@ export default {
 
 <style scoped lang="less">
 @import "../../style/infoManage.less";
+
+.new-add,
+.table-btn-delete,
+.table-btn-update {
+  width: 36px;
+  height: 36px;
+  border: none;
+  border-radius: 6px;
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: 70%;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  margin-right: 6px;
+
+  &:hover {
+    transform: translateY(-3px) scale(1.05);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  }
+
+  &:active {
+    transform: scale(0.95);
+  }
+}
 </style>

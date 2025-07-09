@@ -11,7 +11,9 @@
     <el-main>
       <div class="main-title">
         <h3>医生信息列表</h3>
-        <button class="new-add" @click="addFormVisible = true" v-if="hasRole" />
+        <el-tooltip content="新增医生" placement="top">
+          <button class="new-add" @click="addFormVisible = true" v-if="hasRole"/>
+        </el-tooltip>
       </div>
 
       <div class="search-policy">
@@ -25,34 +27,40 @@
       </div>
 
       <el-table :data="tableData.list" stripe highlight-current-row>
-        <el-table-column prop="name" label="医生姓名" />
-        <el-table-column prop="age" label="年龄" sortable />
+        <el-table-column prop="name" label="医生姓名"/>
+        <el-table-column prop="age" label="年龄" sortable/>
         <el-table-column prop="sex" label="性别" sortable>
           <template #default="scope">
             <span>{{ scope.row.sex === 1 ? '男' : '女' }}</span>
           </template>
         </el-table-column>
-        <el-table-column prop="doctorLevel" label="级别" sortable />
-        <el-table-column prop="phoneNumber" label="手机号" />
-        <el-table-column prop="treatType" label="诊治类别" sortable />
+        <el-table-column prop="doctorLevel" label="级别" sortable/>
+        <el-table-column prop="phoneNumber" label="手机号"/>
+        <el-table-column prop="treatType" label="诊治类别" sortable/>
         <el-table-column v-if="hasRole" label="操作" width="240">
           <template #default="scope">
-            <button
-                class="table-btn-delete"
-                @click="handleDeleteDoctor(scope.row.id, scope.row.name)"
-            />
-            <button
-                class="table-btn-update"
-                @click="openModify(scope.row)"
-            />
-            <el-button
-                plain
-                size="mini"
-                class="table-btn"
-                @click="resetPassword(scope.row.accountId, scope.row.name)"
-            >
-              重置密码
-            </el-button>
+            <el-tooltip content="删除医生" placement="top">
+              <button
+                  class="table-btn-delete"
+                  @click="handleDeleteDoctor(scope.row.id, scope.row.name)"
+              />
+            </el-tooltip>
+            <el-tooltip content="编辑医生" placement="top">
+              <button
+                  class="table-btn-update"
+                  @click="openModify(scope.row)"
+              />
+            </el-tooltip>
+            <el-tooltip content="重置密码" placement="top">
+              <el-button
+                  plain
+                  size="mini"
+                  class="table-btn"
+                  @click="resetPassword(scope.row.accountId, scope.row.name)"
+              >
+                重置密码
+              </el-button>
+            </el-tooltip>
           </template>
         </el-table-column>
       </el-table>
@@ -72,15 +80,15 @@
     <el-dialog title="新增医生信息" v-model="addFormVisible" @closed="handleAddClose">
       <el-form :model="addForm" ref="addForm" label-width="110px" hide-required-asterisk>
         <el-form-item label="医生姓名" prop="name" :rules="doctorRules.nameRules">
-          <el-input v-model.trim="addForm.name" required />
+          <el-input v-model.trim="addForm.name" required/>
         </el-form-item>
         <el-form-item label="年龄" prop="age" :rules="doctorRules.ageRules">
-          <el-input v-model.number="addForm.age" required />
+          <el-input v-model.number="addForm.age" required/>
         </el-form-item>
         <el-form-item label="性别" prop="sex" :rules="doctorRules.requiredRules">
           <el-select v-model="addForm.sex" placeholder="请选择性别">
-            <el-option label="男" :value="1" />
-            <el-option label="女" :value="2" />
+            <el-option label="男" :value="1"/>
+            <el-option label="女" :value="2"/>
           </el-select>
         </el-form-item>
         <el-form-item label="级别" prop="levelId" :rules="doctorRules.requiredRules">
@@ -94,13 +102,13 @@
           </el-select>
         </el-form-item>
         <el-form-item label="手机号" prop="phoneNumber" :rules="doctorRules.phoneRules">
-          <el-input v-model="addForm.phoneNumber" required />
+          <el-input v-model="addForm.phoneNumber" required/>
         </el-form-item>
         <el-form-item label="密码" prop="pwd" :rules="pwdRules">
-          <el-input type="password" v-model.trim="addForm.pwd" required />
+          <el-input type="password" v-model.trim="addForm.pwd" required/>
         </el-form-item>
         <el-form-item label="确认密码" prop="pwdCheck" :rules="checkPwdRules">
-          <el-input type="password" v-model.trim="addForm.pwdCheck" required />
+          <el-input type="password" v-model.trim="addForm.pwdCheck" required/>
         </el-form-item>
         <el-form-item label="诊治类别" prop="typeId" :rules="doctorRules.requiredRules">
           <el-select v-model="addForm.typeId" placeholder="请选择诊治类别">
@@ -125,15 +133,15 @@
     <el-dialog title="修改医生信息" v-model="modifyFormVisible" @closed="handleModifyClose">
       <el-form :model="modifyForm" ref="modifyForm" label-width="110px" hide-required-asterisk>
         <el-form-item label="医生姓名" prop="name" :rules="doctorRules.nameRules">
-          <el-input v-model.trim="modifyForm.name" />
+          <el-input v-model.trim="modifyForm.name"/>
         </el-form-item>
         <el-form-item label="年龄" prop="age" :rules="doctorRules.ageRules">
-          <el-input v-model.number="modifyForm.age" />
+          <el-input v-model.number="modifyForm.age"/>
         </el-form-item>
         <el-form-item label="性别" prop="sex" :rules="doctorRules.requiredRules">
           <el-select v-model="modifyForm.sex">
-            <el-option label="男" :value="1" />
-            <el-option label="女" :value="2" />
+            <el-option label="男" :value="1"/>
+            <el-option label="女" :value="2"/>
           </el-select>
         </el-form-item>
         <el-form-item label="级别" prop="levelId" :rules="doctorRules.requiredRules">
@@ -147,7 +155,7 @@
           </el-select>
         </el-form-item>
         <el-form-item label="手机号" prop="phoneNumber" :rules="doctorRules.phoneRules">
-          <el-input v-model="modifyForm.phoneNumber" required />
+          <el-input v-model="modifyForm.phoneNumber" required/>
         </el-form-item>
         <el-form-item label="诊治类别" prop="typeId" :rules="doctorRules.requiredRules">
           <el-select v-model="modifyForm.typeId">
@@ -168,14 +176,14 @@
       </template>
     </el-dialog>
     <!-- 放置AI助手组件 -->
-    <AiAssistant />
+    <AiAssistant/>
   </el-container>
 </template>
 
 <script>
-import { mapGetters } from "vuex";
-import { doctorRules, validatePass } from "@/utils/validator";
-import { resetPassword } from "@/api/admin/doctorInfoManage";
+import {mapGetters} from "vuex";
+import {doctorRules, validatePass} from "@/utils/validator";
+import {resetPassword} from "@/api/admin/doctorInfoManage";
 import AiAssistant from "@/components/AiAssistant.vue";
 
 export default {
@@ -192,10 +200,10 @@ export default {
       keywordDefault: "",
       addFormVisible: false,
       modifyFormVisible: false,
-      addForm: { name: "", age: "", sex: "", levelId: "", phoneNumber: "", pwd: "", pwdCheck: "", typeId: "" },
-      modifyForm: { id: "", accountId: "", name: "", age: "", sex: "", levelId: "", phoneNumber: "", typeId: "" },
+      addForm: {name: "", age: "", sex: "", levelId: "", phoneNumber: "", pwd: "", pwdCheck: "", typeId: ""},
+      modifyForm: {id: "", accountId: "", name: "", age: "", sex: "", levelId: "", phoneNumber: "", typeId: ""},
       doctorRules,
-      pwdRules: [{ required: true, validator: validatePwd, trigger: "blur" }],
+      pwdRules: [{required: true, validator: validatePwd, trigger: "blur"}],
       checkPwdRules: [{
         validator: (rule, value, callback) =>
             value === this.addForm.pwd ? callback() : callback(new Error("密码不一致")),
@@ -204,7 +212,7 @@ export default {
     };
   },
   computed: {
-    ...mapGetters({ tableData: "doctorInfo", levelAndTypeData: "doctorLevelAndType" }),
+    ...mapGetters({tableData: "doctorInfo", levelAndTypeData: "doctorLevelAndType"}),
     keyword: {
       get() {
         return this.keywordDefault;
@@ -248,7 +256,7 @@ export default {
       });
     },
     handleDeleteDoctor(id, name) {
-      this.$confirm(`确定删除“${name}”？`, "提示", { type: "warning" })
+      this.$confirm(`确定删除“${name}”？`, "提示", {type: "warning"})
           .then(() =>
               this.$store.dispatch("doctorInfoManage/deleteDoctor", {
                 id,
@@ -263,7 +271,7 @@ export default {
           });
     },
     openModify(row) {
-      this.modifyForm = { ...row };
+      this.modifyForm = {...row};
       this.modifyFormVisible = true;
     },
     handleModifyDoctor() {
@@ -282,7 +290,7 @@ export default {
       });
     },
     resetPassword(id, name) {
-      this.$confirm(`确定重置“${name}”密码？`, "提示", { type: "warning" })
+      this.$confirm(`确定重置“${name}”密码？`, "提示", {type: "warning"})
           .then(() => resetPassword(id))
           .catch(() => {
             // 取消或错误时静默处理
@@ -311,12 +319,38 @@ export default {
   align-items: center;
   margin-bottom: 10px;
 }
+
 .search-policy {
   background: #fff;
   padding: 10px 20px;
   margin-bottom: 20px;
 }
+
 .pagination {
   margin-top: 20px;
+}
+
+.new-add,
+.table-btn-delete,
+.table-btn-update {
+  width: 36px;
+  height: 36px;
+  border: none;
+  border-radius: 6px;
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: 70%;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  margin-right: 6px;
+
+  &:hover {
+    transform: translateY(-3px) scale(1.05);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  }
+
+  &:active {
+    transform: scale(0.95);
+  }
 }
 </style>

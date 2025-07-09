@@ -19,11 +19,13 @@
       <!--header -->
       <div class="main-title">
         <h3>必备材料列表</h3>
-        <button
-            class="new-add"
-            @click="addFormVisible = true"
-            v-if="hasRole"
-        />
+        <el-tooltip content="新增必备材料" placement="top">
+          <button
+              class="new-add"
+              @click="addFormVisible = true"
+              v-if="hasRole"
+          />
+        </el-tooltip>
       </div>
 
       <!-- 搜索 -->
@@ -53,20 +55,18 @@
         <el-table-column prop="message" label="材料内容" min-width="400"/>
         <el-table-column label="操作" v-if="hasRole">
           <template v-slot="scope">
-            <button
-                class="table-btn-delete"
-                @click="handleDeleteMaterial(scope.row.id, scope.row.title)"
-            />
-            <button
-                class="table-btn-update"
-                @click="
-                handleModifyFormVisible(
-                  scope.row.id,
-                  scope.row.message,
-                  scope.row.title
-                )
-              "
-            />
+            <el-tooltip content="删除" placement="top">
+              <button
+                  class="table-btn-delete"
+                  @click="handleDeleteMaterial(scope.row.id, scope.row.title)"
+              />
+            </el-tooltip>
+            <el-tooltip content="修改" placement="top">
+              <button
+                  class="table-btn-update"
+                  @click="handleModifyFormVisible(scope.row.id, scope.row.message, scope.row.title)"
+              />
+            </el-tooltip>
           </template>
         </el-table-column>
       </el-table>
@@ -173,7 +173,7 @@
       </template>
     </el-dialog>
     <!-- 放置AI助手组件 -->
-    <AiAssistant />
+    <AiAssistant/>
   </el-container>
 </template>
 
@@ -336,6 +336,31 @@ export default {
   },
 };
 </script>
+
 <style lang="less" scoped>
 @import "../../style/infoManage.less";
+
+.new-add,
+.table-btn-delete,
+.table-btn-update {
+  width: 36px;
+  height: 36px;
+  border: none;
+  border-radius: 6px;
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: 70%;
+  cursor: pointer;
+  margin-right: 6px;
+  transition: all 0.3s ease;
+
+  &:hover {
+    transform: translateY(-3px) scale(1.05);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  }
+
+  &:active {
+    transform: scale(0.95);
+  }
+}
 </style>

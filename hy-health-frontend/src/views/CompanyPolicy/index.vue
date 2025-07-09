@@ -14,7 +14,9 @@
       <!-- 标题与新增按钮 -->
       <div class="main-title">
         <h3>医药公司政策列表</h3>
-        <button class="new-add" @click="addFormVisible = true" v-if="hasRole" />
+        <el-tooltip content="新增政策" placement="top">
+          <button class="new-add" @click="addFormVisible = true" v-if="hasRole"/>
+        </el-tooltip>
       </div>
 
       <!-- 搜索框 -->
@@ -44,25 +46,29 @@
             </el-form>
           </template>
         </el-table-column>
-        <el-table-column prop="drugCompanyModel.companyName" label="公司名称" />
-        <el-table-column prop="id" label="政策编号" sortable />
-        <el-table-column prop="title" label="政策名称" />
-        <el-table-column prop="updateTime" label="发布时间" sortable />
+        <el-table-column prop="drugCompanyModel.companyName" label="公司名称"/>
+        <el-table-column prop="id" label="政策编号" sortable/>
+        <el-table-column prop="title" label="政策名称"/>
+        <el-table-column prop="updateTime" label="发布时间" sortable/>
         <el-table-column v-if="hasRole" label="操作">
           <template #default="scope">
-            <button
-                class="table-btn-delete"
-                @click="handleDeleteCompanyPolicy(scope.row.id, scope.row.title)"
-            />
-            <button
-                class="table-btn-update"
-                @click="handleModifyFormVisible(
-                scope.row.id,
-                scope.row.title,
-                scope.row.message,
-                scope.row.drugCompanyModel.companyId
-              )"
-            />
+            <el-tooltip content="删除政策" placement="top">
+              <button
+                  class="table-btn-delete"
+                  @click="handleDeleteCompanyPolicy(scope.row.id, scope.row.title)"
+              />
+            </el-tooltip>
+            <el-tooltip content="编辑政策" placement="top">
+              <button
+                  class="table-btn-update"
+                  @click="handleModifyFormVisible(
+            scope.row.id,
+            scope.row.title,
+            scope.row.message,
+            scope.row.drugCompanyModel.companyId
+          )"
+              />
+            </el-tooltip>
           </template>
         </el-table-column>
       </el-table>
@@ -83,10 +89,10 @@
     <el-dialog title="新增医药公司政策" v-model="addFormVisible" @closed="handleAddClose">
       <el-form :model="addForm" ref="addForm" label-width="110px" hide-required-asterisk>
         <el-form-item label="政策名称" prop="title" :rules="rules.nameRules">
-          <el-input v-model.trim="addForm.title" required />
+          <el-input v-model.trim="addForm.title" required/>
         </el-form-item>
         <el-form-item label="政策内容" prop="message" :rules="rules.infoRules">
-          <el-input v-model.trim="addForm.message" type="textarea" autosize required />
+          <el-input v-model.trim="addForm.message" type="textarea" autosize required/>
         </el-form-item>
         <el-form-item label="生效公司" prop="companyId" :rules="rules.requiredRules">
           <el-select v-model="addForm.companyId" placeholder="请选择生效公司">
@@ -111,10 +117,10 @@
     <el-dialog title="修改医药公司政策信息" v-model="modifyFormVisible" @closed="handleModifyClose">
       <el-form :model="modifyForm" ref="modifyForm" label-width="110px" hide-required-asterisk>
         <el-form-item label="政策名称" prop="title" :rules="rules.nameRules">
-          <el-input v-model.trim="modifyForm.title" required />
+          <el-input v-model.trim="modifyForm.title" required/>
         </el-form-item>
         <el-form-item label="政策内容" prop="message" :rules="rules.infoRules">
-          <el-input v-model.trim="modifyForm.message" type="textarea" autosize required />
+          <el-input v-model.trim="modifyForm.message" type="textarea" autosize required/>
         </el-form-item>
         <el-form-item label="生效公司" prop="companyId" :rules="rules.requiredRules">
           <el-select v-model="modifyForm.companyId" placeholder="请选择生效公司">
@@ -135,12 +141,12 @@
       </template>
     </el-dialog>
     <!-- 放置AI助手组件 -->
-    <AiAssistant />
+    <AiAssistant/>
   </el-container>
 </template>
 
 <script>
-import { mapGetters } from "vuex";
+import {mapGetters} from "vuex";
 import rules from "../../utils/validator";
 import dayjs from "dayjs";
 import AiAssistant from "@/components/AiAssistant.vue";
@@ -154,9 +160,9 @@ export default {
       pageSize: 5,
       keywordDefault: "",
       addFormVisible: false,
-      addForm: { companyId: "", title: "", message: "" },
+      addForm: {companyId: "", title: "", message: ""},
       modifyFormVisible: false,
-      modifyForm: { id: "", companyId: "", title: "", message: "" },
+      modifyForm: {id: "", companyId: "", title: "", message: ""},
       rules,
     };
   },
@@ -231,7 +237,7 @@ export default {
           });
     },
     handleModifyFormVisible(id, title, message, companyId) {
-      this.modifyForm = { id, companyId, title, message };
+      this.modifyForm = {id, companyId, title, message};
       this.modifyFormVisible = true;
     },
     handleModifyMedicalPolicy() {
@@ -283,5 +289,29 @@ export default {
 
 .pagination {
   margin-top: 20px;
+}
+
+.new-add,
+.table-btn-delete,
+.table-btn-update {
+  width: 36px;
+  height: 36px;
+  border: none;
+  border-radius: 6px;
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: 70%;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  margin-right: 6px;
+
+  &:hover {
+    transform: translateY(-3px) scale(1.05);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  }
+
+  &:active {
+    transform: scale(0.95);
+  }
 }
 </style>

@@ -11,7 +11,9 @@
     <el-main>
       <div class="main-title">
         <h3>销售地点列表</h3>
-        <button class="new-add" @click="addFormVisible = true" v-if="hasRole" />
+        <el-tooltip content="新增销售地点" placement="top">
+          <button class="new-add" @click="addFormVisible = true" v-if="hasRole"/>
+        </el-tooltip>
       </div>
 
       <el-row :gutter="20">
@@ -32,13 +34,18 @@
           :data="tableData.list"
           highlight-current-row
       >
-        <el-table-column prop="saleId" label="药店编号" sortable />
-        <el-table-column prop="saleName" label="药店名称" />
-        <el-table-column prop="salePhone" label="药店电话" />
+        <el-table-column prop="saleId" label="药店编号" sortable/>
+        <el-table-column prop="saleName" label="药店名称"/>
+        <el-table-column prop="salePhone" label="药店电话"/>
         <el-table-column label="操作" v-if="hasRole">
           <template #default="scope">
-            <button class="table-btn-delete" @click="handleDeleteSalePlace(scope.row.saleId, scope.row.saleName)" />
-            <button class="table-btn-update" @click="handleModifyFormVisible(scope.row.saleId, scope.row.saleName, scope.row.salePhone)" />
+            <el-tooltip content="删除" placement="top">
+              <button class="table-btn-delete" @click="handleDeleteSalePlace(scope.row.saleId, scope.row.saleName)"/>
+            </el-tooltip>
+            <el-tooltip content="修改" placement="top">
+              <button class="table-btn-update"
+                      @click="handleModifyFormVisible(scope.row.saleId, scope.row.saleName, scope.row.salePhone)"/>
+            </el-tooltip>
           </template>
         </el-table-column>
       </el-table>
@@ -58,10 +65,10 @@
     <el-dialog title="新增销售地点" v-model="addFormVisible" @closed="handleAddClose">
       <el-form :model="addForm" ref="addForm" label-width="110px" hide-required-asterisk>
         <el-form-item label="药店名称" prop="saleName" :rules="rules.nameRules">
-          <el-input v-model.trim="addForm.saleName" autocomplete="off" required />
+          <el-input v-model.trim="addForm.saleName" autocomplete="off" required/>
         </el-form-item>
         <el-form-item label="药店电话" prop="salePhone" :rules="rules.phoneRules">
-          <el-input v-model.number="addForm.salePhone" autocomplete="off" required />
+          <el-input v-model.number="addForm.salePhone" autocomplete="off" required/>
         </el-form-item>
       </el-form>
       <template #footer>
@@ -76,13 +83,13 @@
     <el-dialog title="修改销售地点信息" v-model="modifyFormVisible" @closed="handleModifyClose">
       <el-form :model="modifyForm" ref="modifyForm" label-width="110px" hide-required-asterisk>
         <el-form-item label="药店编号">
-          <el-input v-model="modifyForm.saleId" autocomplete="off" disabled />
+          <el-input v-model="modifyForm.saleId" autocomplete="off" disabled/>
         </el-form-item>
         <el-form-item label="药店名称" prop="saleName" :rules="rules.nameRules">
-          <el-input v-model.trim="modifyForm.saleName" autocomplete="off" required />
+          <el-input v-model.trim="modifyForm.saleName" autocomplete="off" required/>
         </el-form-item>
         <el-form-item label="药店电话" prop="salePhone" :rules="rules.phoneRules">
-          <el-input v-model.number="modifyForm.salePhone" autocomplete="off" required />
+          <el-input v-model.number="modifyForm.salePhone" autocomplete="off" required/>
         </el-form-item>
       </el-form>
       <template #footer>
@@ -93,12 +100,12 @@
       </template>
     </el-dialog>
     <!-- 放置AI助手组件 -->
-    <AiAssistant />
+    <AiAssistant/>
   </el-container>
 </template>
 
 <script>
-import { mapGetters } from "vuex";
+import {mapGetters} from "vuex";
 import rules from "../../utils/validator";
 import AiAssistant from "@/components/AiAssistant.vue";
 
@@ -155,7 +162,7 @@ export default {
                 this.getSalePlaceInfo(1);
               });
         } else {
-          this.$message({ message: "请检查输入的内容是否合规", type: "warning" });
+          this.$message({message: "请检查输入的内容是否合规", type: "warning"});
         }
       });
     },
@@ -178,11 +185,11 @@ export default {
                 });
           })
           .catch(() => {
-            this.$message({ type: "info", message: "已取消删除" });
+            this.$message({type: "info", message: "已取消删除"});
           });
     },
     handleModifyFormVisible(saleId, saleName, salePhone) {
-      this.modifyForm = { saleId, saleName, salePhone };
+      this.modifyForm = {saleId, saleName, salePhone};
       this.modifyFormVisible = true;
     },
     handleModifySalePlace(formName) {
@@ -202,7 +209,7 @@ export default {
                 this.getSalePlaceInfo();
               });
         } else {
-          this.$message({ message: "请检查输入的内容是否合规", type: "warning" });
+          this.$message({message: "请检查输入的内容是否合规", type: "warning"});
         }
       });
     },
@@ -239,4 +246,28 @@ export default {
 
 <style scoped lang="less">
 @import "../../style/infoManage.less";
+
+.new-add,
+.table-btn-delete,
+.table-btn-update {
+  width: 36px;
+  height: 36px;
+  border: none;
+  border-radius: 6px;
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: 70%;
+  cursor: pointer;
+  margin-right: 6px;
+  transition: all 0.3s ease;
+
+  &:hover {
+    transform: translateY(-3px) scale(1.05);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  }
+
+  &:active {
+    transform: scale(0.95);
+  }
+}
 </style>

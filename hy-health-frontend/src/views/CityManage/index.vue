@@ -9,9 +9,12 @@
     </el-header>
 
     <el-main>
+      <!-- 城市列表标题区域 -->
       <div class="main-title">
         <h3>城市列表</h3>
-        <button class="new-add" @click="addFormVisible = true" v-if="hasRole"/>
+        <el-tooltip content="新增城市" placement="top">
+          <button class="new-add" @click="addFormVisible = true" v-if="hasRole"/>
+        </el-tooltip>
       </div>
 
       <el-row :gutter="20">
@@ -37,10 +40,12 @@
         <el-table-column prop="city" label="城市名称"/>
         <el-table-column prop="cityOperation" label="操作" v-if="hasRole">
           <template #default="scope">
-            <button
-                class="table-btn-delete"
-                @click="handleDeletecity(scope.row.cityId, scope.row.city)"
-            />
+            <el-tooltip content="删除城市" placement="top">
+              <button
+                  class="table-btn-delete"
+                  @click="handleDeletecity(scope.row.cityId, scope.row.city)"
+              />
+            </el-tooltip>
           </template>
         </el-table-column>
       </el-table>
@@ -85,7 +90,7 @@
     </el-dialog>
 
     <!-- 放置AI助手组件 -->
-    <AiAssistant />
+    <AiAssistant/>
   </el-container>
 </template>
 
@@ -203,4 +208,27 @@ export default {
 
 <style lang="less" scoped>
 @import "../../style/infoManage.less";
+
+.new-add,
+.table-btn-delete {
+  width: 36px;
+  height: 36px;
+  background-color: #409EFF;
+  border: none;
+  border-radius: 6px; // 轻微圆角，更现代
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: 70%; // 调整为适配图标大小
+  cursor: pointer;
+  transition: all 0.3s ease;
+
+  &:hover {
+    transform: translateY(-3px) scale(1.05);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  }
+
+  &:active {
+    transform: scale(0.95);
+  }
+}
 </style>

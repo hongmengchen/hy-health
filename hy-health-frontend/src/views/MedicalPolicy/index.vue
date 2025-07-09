@@ -70,14 +70,16 @@
           <el-button size="small" type="primary" @click="handleLimitedSearch">
             查找
           </el-button>
-          <el-button
-              size="small"
-              type="primary"
-              v-if="hasRole"
-              @click="addFormVisible = true; resetPage()"
-          >
-            新增
-          </el-button>
+          <el-tooltip content="新增医保政策" placement="top">
+            <el-button
+                size="small"
+                type="primary"
+                v-if="hasRole"
+                @click="addFormVisible = true; resetPage()"
+            >
+              新增
+            </el-button>
+          </el-tooltip>
         </el-form>
       </div>
 
@@ -98,25 +100,29 @@
               </el-form>
             </template>
           </el-table-column>
-          <el-table-column prop="id" label="医保编号" sortable />
-          <el-table-column prop="title" label="政策标题" />
-          <el-table-column prop="cityModel.city" label="城市" />
-          <el-table-column prop="updateTime" label="发布时间" sortable />
+          <el-table-column prop="id" label="医保编号" sortable/>
+          <el-table-column prop="title" label="政策标题"/>
+          <el-table-column prop="cityModel.city" label="城市"/>
+          <el-table-column prop="updateTime" label="发布时间" sortable/>
           <el-table-column v-if="hasRole" label="操作">
             <template #default="scope">
-              <button
-                  class="table-btn-delete"
-                  @click="handleDeleteMedicalPolicy(scope.row.id, scope.row.title)"
-              />
-              <button
-                  class="table-btn-update"
-                  @click="handleModifyFormVisible(
-                  scope.row.id,
-                  scope.row.title,
-                  scope.row.message,
-                  scope.row.cityModel.cityId
-                )"
-              />
+              <el-tooltip content="删除" placement="top">
+                <button
+                    class="table-btn-delete"
+                    @click="handleDeleteMedicalPolicy(scope.row.id, scope.row.title)"
+                />
+              </el-tooltip>
+              <el-tooltip content="修改" placement="top">
+                <button
+                    class="table-btn-update"
+                    @click="handleModifyFormVisible(
+        scope.row.id,
+        scope.row.title,
+        scope.row.message,
+        scope.row.cityModel.cityId
+      )"
+                />
+              </el-tooltip>
             </template>
           </el-table-column>
         </el-table>
@@ -138,10 +144,10 @@
     <el-dialog title="新增医保政策" v-model="addFormVisible" @closed="handleAddClose">
       <el-form :model="addForm" ref="addForm" label-width="110px" hide-required-asterisk>
         <el-form-item label="政策标题" prop="title" :rules="rules.nameRules">
-          <el-input v-model.trim="addForm.title" required />
+          <el-input v-model.trim="addForm.title" required/>
         </el-form-item>
         <el-form-item label="政策内容" prop="message" :rules="rules.infoRules">
-          <el-input v-model.trim="addForm.message" type="textarea" autosize required />
+          <el-input v-model.trim="addForm.message" type="textarea" autosize required/>
         </el-form-item>
         <el-form-item label="生效城市" prop="city" :rules="rules.requiredRules">
           <el-select v-model="addForm.city" placeholder="请选择生效城市">
@@ -166,10 +172,10 @@
     <el-dialog title="修改医保政策信息" v-model="modifyFormVisible" @closed="handleModifyClose">
       <el-form :model="modifyForm" ref="modifyForm" label-width="110px" hide-required-asterisk>
         <el-form-item label="政策标题" prop="title" :rules="rules.nameRules">
-          <el-input v-model.trim="modifyForm.title" required />
+          <el-input v-model.trim="modifyForm.title" required/>
         </el-form-item>
         <el-form-item label="政策内容" prop="message" :rules="rules.infoRules">
-          <el-input v-model.trim="modifyForm.message" type="textarea" autosize required />
+          <el-input v-model.trim="modifyForm.message" type="textarea" autosize required/>
         </el-form-item>
         <el-form-item label="生效城市" prop="city" :rules="rules.requiredRules">
           <el-select v-model="modifyForm.city" placeholder="请选择生效城市">
@@ -190,13 +196,13 @@
       </template>
     </el-dialog>
     <!-- 放置AI助手组件 -->
-    <AiAssistant />
+    <AiAssistant/>
   </el-container>
 </template>
 
 <script>
-import { mapGetters } from "vuex";
-import rules, { searchRules } from "../../utils/validator";
+import {mapGetters} from "vuex";
+import rules, {searchRules} from "../../utils/validator";
 import dayjs from "dayjs";
 import AiAssistant from "@/components/AiAssistant.vue";
 
@@ -209,14 +215,14 @@ export default {
       pageSize: 5,
       rules,
       searchRules,
-      searchLimit: { id: "", title: "", publishTime: "", city: "" },
+      searchLimit: {id: "", title: "", publishTime: "", city: ""},
       addForm: {
         title: "",
         message: "",
         city: "",
         updateTime: dayjs().format("YYYY-MM-DD"),
       },
-      modifyForm: { id: "", title: "", message: "", city: "" },
+      modifyForm: {id: "", title: "", message: "", city: ""},
       addFormVisible: false,
       modifyFormVisible: false,
     };
@@ -300,7 +306,7 @@ export default {
           });
     },
     handleModifyFormVisible(id, title, message, city) {
-      this.modifyForm = { id, title, message, city };
+      this.modifyForm = {id, title, message, city};
       this.modifyFormVisible = true;
     },
     handleModifyMedicalPolicy() {
@@ -352,9 +358,11 @@ export default {
   .input-item {
     float: left;
     margin-right: 30px;
+
     h5 {
       margin-bottom: 6px;
     }
+
     .el-input,
     .el-date-picker,
     .el-select {
@@ -366,5 +374,28 @@ export default {
 .table-policy {
   border-top: 3px solid #e8ebed;
   margin-top: 20px;
+}
+
+.table-btn-delete,
+.table-btn-update {
+  width: 32px;
+  height: 32px;
+  border: none;
+  border-radius: 6px;
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: 60%;
+  cursor: pointer;
+  margin-right: 8px;
+  transition: all 0.3s ease;
+
+  &:hover {
+    transform: translateY(-2px) scale(1.1);
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+  }
+
+  &:active {
+    transform: scale(0.95);
+  }
 }
 </style>
