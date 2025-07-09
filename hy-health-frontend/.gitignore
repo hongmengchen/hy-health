@@ -1,4 +1,5 @@
 src/components/AiAssistant.vue
+src/views/Home/index.vue
 
 .DS_Store
 node_modules
