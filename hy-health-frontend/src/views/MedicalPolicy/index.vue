@@ -14,73 +14,51 @@
     <el-main>
       <!-- 搜索 + 新增 -->
       <div class="search-policy">
-        <el-form :model="searchLimit" ref="searchLimit" inline>
-          <div class="input-item">
-            <h5>医保编号</h5>
-            <el-form-item prop="id" :rules="searchRules.intRules">
-              <el-input
-                  v-model.number="searchLimit.id"
-                  size="small"
-                  placeholder="请输入"
-                  maxlength="6"
+        <!-- 左侧：搜索表单 -->
+        <el-form :model="searchLimit" ref="searchLimit" inline class="form-grid">
+          <el-form-item label="医保编号" prop="id" :rules="searchRules.intRules">
+            <el-input v-model.number="searchLimit.id" size="small" placeholder="请输入" maxlength="6"/>
+          </el-form-item>
+          <el-form-item label="政策标题" prop="title">
+            <el-input v-model="searchLimit.title" size="small" placeholder="请输入" maxlength="14"/>
+          </el-form-item>
+          <el-form-item label="发布时间" prop="publishTime">
+            <el-date-picker
+                v-model="searchLimit.publishTime"
+                type="date"
+                size="small"
+                placeholder="选择日期"
+                value-format="YYYY-MM-DD"
+            />
+          </el-form-item>
+          <el-form-item label="城市" prop="city">
+            <el-select
+                v-model="searchLimit.city"
+                size="small"
+                placeholder="请选择需要查询的城市"
+                clearable
+            >
+              <el-option
+                  v-for="city in cityInfo.list"
+                  :key="city.cityId"
+                  :label="city.city"
+                  :value="city.cityId"
               />
-            </el-form-item>
-          </div>
-          <div class="input-item">
-            <h5>政策标题</h5>
-            <el-form-item prop="title">
-              <el-input
-                  v-model="searchLimit.title"
-                  size="small"
-                  placeholder="请输入"
-                  maxlength="14"
-              />
-            </el-form-item>
-          </div>
-          <div class="input-item">
-            <h5>发布时间</h5>
-            <el-form-item prop="publishTime">
-              <el-date-picker
-                  v-model="searchLimit.publishTime"
-                  type="date"
-                  size="small"
-                  placeholder="选择日期"
-                  value-format="YYYY-MM-DD"
-              />
-            </el-form-item>
-          </div>
-          <div class="input-item">
-            <h5>城市</h5>
-            <el-form-item prop="city">
-              <el-select
-                  v-model="searchLimit.city"
-                  size="small"
-                  placeholder="请选择需要查询的城市"
-                  clearable
-              >
-                <el-option
-                    v-for="city in cityInfo.list"
-                    :key="city.cityId"
-                    :label="city.city"
-                    :value="city.cityId"
-                />
-              </el-select>
-            </el-form-item>
-          </div>
+            </el-select>
+          </el-form-item>
+        </el-form>
+
+        <!-- 右侧：按钮组 -->
+        <div class="search-policy-buttons">
           <el-button size="small" type="primary" @click="handleLimitedSearch">
             查找
           </el-button>
-          <el-tooltip content="新增医保政策" placement="top">
-            <el-button
-                size="small"
-                type="primary"
-                v-if="hasRole"
-                @click="addFormVisible = true; resetPage()"
-            >
+          <el-tooltip content="新增医保政策" placement="top" v-if="hasRole">
+            <el-button size="small" type="primary" @click="addFormVisible = true; resetPage()">
               新增
             </el-button>
           </el-tooltip>
-        </el-form>
+        </div>
       </div>
 
       <!-- 表格 -->
@@ -353,22 +331,28 @@ export default {
   background: #fff;
   margin-bottom: 20px;
   padding: 15px;
-  overflow: auto;
-  clear: both;
 
-  .input-item {
-    float: left;
-    margin-right: 30px;
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  flex-wrap: wrap;
+  gap: 20px;
 
-    h5 {
-      margin-bottom: 6px;
-    }
+  .form-grid {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+    align-items: flex-end;
 
-    .el-input,
-    .el-date-picker,
-    .el-select {
+    .el-form-item {
+      margin-right: 0;
       width: 240px;
     }
+  }
+
+  .search-policy-buttons {
+    display: flex;
+    gap: 10px;
   }
 }
 
